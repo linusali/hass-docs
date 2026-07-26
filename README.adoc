@@ -63,20 +63,26 @@ By using this documentation you accept that you do so entirely at your own risk.
 
 Our villa community has several villas that share the same underlying hardware
 layout, originally controlled by a proprietary panel system called *TIS Control*.
-One villa successfully replaced the "brain" of that system with *Home Assistant*,
-using:
+One villa successfully swapped out that "brain" for *Home Assistant*, using:
 
-* *Zigbee* for lighting, switches, and similar low-voltage smart-home devices
+* *Zigbee* to bring the wiring, switches, and sensors that were already installed
+  onto a network Home Assistant can talk to
 * A small, community-written *custom integration*
   (https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac]) to keep controlling
   the villa's own *VRF air-conditioning* system (each villa has its own dedicated
   VRF controller and unit) that TIS Control used to manage
 * Standard, free, open-source Home Assistant add-ons for everything else
 
+Nothing gets ripped out to make this work. The physical switches, sensors, and
+relays already sitting in the walls stay exactly where they are - only the system
+deciding what they do changes hands, from the closed TIS panel to Home Assistant.
+That's an important distinction from a full smart-home retrofit: this is closer to
+giving the existing hardware a new employer than buying it all over again.
+
 This repository documents that setup so other residents with similar hardware can
-replicate it, understand the trade-offs, and support each other as a community -
-nobody is obligated to do this, and nobody should feel pressure to move faster than
-they're comfortable with.
+repurpose their own installation the same way, understand the trade-offs, and
+support each other as a community - nobody is obligated to do this, and nobody
+should feel pressure to move faster than they're comfortable with.
 
 == Two guides, pick where to start
 
@@ -100,9 +106,10 @@ they're comfortable with.
 image::architecture-simple.svg[Simple architecture overview,800,,align="center"]
 
 The short version: a small computer (a Raspberry Pi) running Home Assistant becomes
-the new "brain" of the villa, replacing the TIS Control panel. It talks to Zigbee
-devices (lights, switches, sensors) directly over a local Zigbee radio, and talks to
-the villa's own VRF air-conditioning system over the local network. None of this
+the new "brain" of the villa, replacing the TIS Control panel. It talks to the
+same lights, switches, and sensors that were already there - repurposed to speak
+Zigbee instead of the old proprietary bus - directly over a local Zigbee radio, and
+talks to the villa's own VRF air-conditioning system over the local network. None of this
 requires an internet connection to work day-to-day - internet access is only
 involved if you choose to enable optional remote control from your phone while away
 from home. See the link:docs/guide-technical.adoc#_architecture[technical guide's

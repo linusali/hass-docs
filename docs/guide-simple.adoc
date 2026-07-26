@@ -46,10 +46,12 @@ control panel system called *TIS Control*. It's a closed system from one
 manufacturer - it works, but you can't see how it works, can't easily add cheaper
 devices to it, and depend entirely on that one company for support and spare parts.
 
-In one villa, we replaced the "brain" of that system with *Home Assistant* - a free,
-open-source home automation platform used by millions of people worldwide. The
-wiring behind your walls, your light switches, and your air-conditioning units don't
-need to change. What changes is *what is in charge* of them.
+In one villa, we swapped out the "brain" of that system for *Home Assistant* - a
+free, open-source home automation platform used by millions of people worldwide.
+Nothing gets torn out to do this: the wiring behind your walls, your light
+switches, your sensors, and your air-conditioning are all repurposed rather than
+replaced. They keep doing exactly what they've always done - only *what's in
+charge* of them changes.
 
 == What stays the same, what changes
 
@@ -72,8 +74,9 @@ In plain words:
 
 * A small computer (about the size of a deck of cards, called a *Raspberry Pi*)
   becomes the new "brain" of your villa, replacing the old TIS Control panel.
-* That brain talks wirelessly, using a technology called *Zigbee*, to your lights,
-  switches, and similar devices.
+* That brain talks wirelessly, using a technology called *Zigbee*, to the lights,
+  switches, and sensors you already have - repurposed to report to Home Assistant
+  instead of the old TIS panel.
 * It also talks over your home network to your villa's own air-conditioning
   system (each villa has its own dedicated AC controller and unit - it isn't
   shared with neighbours), so you keep controlling the AC the same way you always
@@ -96,11 +99,14 @@ In plain words:
 | Storage and power for the small computer.
 
 | A Zigbee "coordinator" (a small network gateway device)
-| Lets the brain talk wirelessly to your lights, switches, and sensors.
+| Lets the brain talk wirelessly to whatever is fitted behind your existing
+  switches and sensors.
 
-| Zigbee-compatible switches/relays/sensors for each room
-| The actual devices being controlled - these may replace or sit behind your
-  existing wall switches (electrician work).
+| A small Zigbee relay/interface module for each switch or sensor circuit
+| Fits in behind the wall plate you already have, so your current switches and
+  sensors carry on working by hand exactly as before, while also reporting in to
+  the new brain. This is about giving what's already installed a new way to talk,
+  not buying a house full of replacement hardware (electrician work).
 
 | A network cable or reliable Wi-Fi
 | Connects the small computer to your home network/router.

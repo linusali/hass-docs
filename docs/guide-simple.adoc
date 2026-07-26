@@ -3,8 +3,9 @@
 :toclevels: 2
 :imagesdir: images
 
-This guide explains, in plain language, what was changed in one unit of our housing
-project, why, and what it would mean for you if you wanted the same thing. It
+This guide explains, in plain language, what was changed in one villa of our
+villa community, why, and what it would mean for you if you wanted the same
+thing. It
 assumes no technical background. For step-by-step technical instructions, see the
 link:guide-technical.adoc[Technical Guide], or ask a technically-minded neighbour to
 walk through it with you.
@@ -12,7 +13,7 @@ walk through it with you.
 toc::[]
 
 [WARNING]
-.Electrical safety warning - please read first
+.⚠️ WARNING: Electrical safety - please read first
 ====
 Some of this involves wiring connected to *mains / line voltage electricity* (the
 same power that can seriously hurt or kill someone if handled incorrectly).
@@ -27,25 +28,25 @@ same power that can seriously hurt or kill someone if handled incorrectly).
 ====
 
 [IMPORTANT]
-.Disclaimer
+.❗ IMPORTANT: Disclaimer
 ====
 This guide is shared by a neighbour, for neighbours, as a community learning
 resource - it is **not** professional advice, and it comes with **no warranty**.
 Neither the author nor other contributors are responsible for any injury, death,
 fire, property damage, or other loss that may result from following it. Any change
-to shared building systems should be approved by building management first, and any
+to shared community systems should be approved by community management/HOA first, and any
 electrical work must be done by a qualified electrician. Proceed at your own risk,
 and don't feel any pressure to do this yourself if you're not comfortable.
 ====
 
 == What is TIS Control, and what did we replace?
 
-Several units in our building, including yours, were built with a proprietary
+Several villas in our community, including yours, were built with a proprietary
 control panel system called *TIS Control*. It's a closed system from one
 manufacturer - it works, but you can't see how it works, can't easily add cheaper
 devices to it, and depend entirely on that one company for support and spare parts.
 
-In one unit, we replaced the "brain" of that system with *Home Assistant* - a free,
+In one villa, we replaced the "brain" of that system with *Home Assistant* - a free,
 open-source home automation platform used by millions of people worldwide. The
 wiring behind your walls, your light switches, and your air-conditioning units don't
 need to change. What changes is *what is in charge* of them.
@@ -59,9 +60,9 @@ need to change. What changes is *what is in charge* of them.
   TIS system didn't allow.
 * You are no longer dependent on one manufacturer for support, updates, or spare
   parts - the software is free, open-source, and maintained by a large community.
-* Nothing about your legal ownership, warranty, or building agreements changes
-  automatically - check with building management before making changes to shared
-  systems.
+* Nothing about your legal ownership, warranty, or community agreements changes
+  automatically - check with community management/HOA before making changes to
+  shared systems.
 
 == The big picture
 
@@ -70,12 +71,13 @@ image::architecture-simple.svg[How the pieces fit together,700,,align="center"]
 In plain words:
 
 * A small computer (about the size of a deck of cards, called a *Raspberry Pi*)
-  becomes the new "brain" of your unit, replacing the old TIS Control panel.
+  becomes the new "brain" of your villa, replacing the old TIS Control panel.
 * That brain talks wirelessly, using a technology called *Zigbee*, to your lights,
   switches, and similar devices.
-* It also talks over your home network to your existing air-conditioning system, so
-  you keep controlling the AC the same way you always did (just from the new
-  system instead of the old one).
+* It also talks over your home network to your villa's own air-conditioning
+  system (each villa has its own dedicated AC controller and unit - it isn't
+  shared with neighbours), so you keep controlling the AC the same way you always
+  did (just from the new system instead of the old one).
 * None of this needs the internet to work day-to-day inside your home. The internet
   is only involved if you *choose* to turn on the optional ability to control your
   home from your phone while you're away - and that step is optional, has some
@@ -111,15 +113,15 @@ link:guide-technical.adoc[Technical Guide].
 
 . Read this guide fully, and skim the link:guide-technical.adoc[Technical Guide] so
   you know roughly what's involved.
-. Decide, with building management if relevant, whether you're doing this yourself,
+. Decide, with community management/HOA if relevant, whether you're doing this yourself,
   with a technical neighbour's help, or hiring someone.
 . Get the hardware from the shopping list above.
 . Have a qualified electrician handle anything involving wiring, wall boxes, or the
   distribution board.
 . Follow the link:guide-technical.adoc[Technical Guide] to install and configure the
   software, or have your technical neighbour do it with you watching/learning.
-. Add your devices one room at a time - there's no need to convert the whole unit
-  in one day.
+. Add your devices one room at a time - there's no need to convert the whole
+  villa in one day.
 . Optionally, once everything works locally, consider whether you want remote
   access from your phone - this is covered, with its risks, in the technical guide.
 
@@ -128,12 +130,13 @@ link:guide-technical.adoc[Technical Guide].
 This is neighbour-to-neighbour support, not a paid service.
 
 * Ask the neighbour(s) who've already done this before experimenting on your own,
-  especially anything touching shared building systems like the VRF
-  air-conditioning.
+  especially anything touching systems shared with the wider community (e.g.
+  common-area wiring). Your villa's own AC and Zigbee devices are private to you,
+  but check first if you're ever unsure whether something is exclusively yours.
 * Take it step by step - you don't have to convert everything at once.
 * If something feels unsafe or you're unsure, stop and ask - either a neighbour or a
-  qualified professional (electrician for wiring, building management for shared
-  systems).
+  qualified professional (electrician for wiring, community management/HOA for
+  shared systems).
 
 [CAUTION]
 ====

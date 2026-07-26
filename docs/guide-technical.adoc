@@ -14,7 +14,7 @@ link:guide-simple.adoc[Simple Guide].
 toc::[]
 
 [WARNING]
-.Electrical safety warning - please read first
+.⚠️ WARNING: Electrical safety - please read first
 ====
 Parts of this project involve wiring connected to *mains / line voltage electricity*.
 
@@ -29,7 +29,7 @@ Parts of this project involve wiring connected to *mains / line voltage electric
 ====
 
 [IMPORTANT]
-.Disclaimer - no warranty, use at your own risk
+.❗ IMPORTANT: Disclaimer - no warranty, use at your own risk
 ====
 This documentation and the linked custom integration
 (https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac]) are provided *"as is"*
@@ -37,9 +37,12 @@ as a community resource, with **no warranty of any kind** and **no guarantee of
 fitness for any particular purpose**. The author and contributors are **not liable**
 for any damage, injury, death, fire, data loss, loss of climate control, security
 incident, or other loss arising from using this material. You are responsible for
-complying with local law, electrical code, building rules, and for getting sign-off
-from building management before modifying shared systems (in particular the VRF
-air-conditioning, which may serve more than one unit). All IP addresses, domains,
+complying with local law, electrical code, and community rules, and for getting
+sign-off from your HOA/community management before modifying anything that could
+affect shared community infrastructure (common-area wiring, shared network/utility
+equipment, etc.) - note that the VRF air-conditioning itself is dedicated per villa
+and not shared with neighbours, so it does not carry that particular risk. All
+IP addresses, domains,
 usernames, and passwords shown in this guide are **placeholders** - replace them with
 your own values and never commit real credentials to a public repository.
 ====
@@ -83,12 +86,14 @@ Components:
 | `hass-tis-vrf-ac` custom integration
 | Community-written Home Assistant `climate` platform
   (https://github.com/linusali/hass-tis-vrf-ac[source]) that talks HTTP directly to
-  the existing TIS VRF air-conditioning controller, so the original AC hardware
+  the villa's own TIS VRF air-conditioning controller, so the original AC hardware
   keeps working under Home Assistant instead of the TIS Control panel.
 
 | TIS VRF AC controller
-| Existing proprietary hardware, kept in place. Reachable on the LAN over HTTP,
-  optionally with HTTP Basic Auth.
+| Existing proprietary hardware, kept in place. Dedicated to this villa only - each
+  villa has its own controller and AC unit, not a system shared across the
+  community. Reachable on the villa's LAN over HTTP, optionally with HTTP Basic
+  Auth.
 
 | DuckDNS + Let's Encrypt add-on (optional)
 | Only needed if you enable remote access. Keeps a free dynamic-DNS hostname

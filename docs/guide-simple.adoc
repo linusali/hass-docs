@@ -1,0 +1,143 @@
+= Simple Guide: What We Did and What It Means For You
+:toc: macro
+:toclevels: 2
+:imagesdir: images
+
+This guide explains, in plain language, what was changed in one unit of our housing
+project, why, and what it would mean for you if you wanted the same thing. It
+assumes no technical background. For step-by-step technical instructions, see the
+link:guide-technical.adoc[Technical Guide], or ask a technically-minded neighbour to
+walk through it with you.
+
+toc::[]
+
+[WARNING]
+.Electrical safety warning - please read first
+====
+Some of this involves wiring connected to *mains / line voltage electricity* (the
+same power that can seriously hurt or kill someone if handled incorrectly).
+
+* **Never** open a wall switch box, distribution board, or wiring panel yourself
+  unless you are a qualified electrician.
+* Any physical/electrical work must be done by a **licensed electrician**.
+* The parts of this project that are safe for a non-electrician to do yourself are
+  limited to: plugging in a small computer, connecting it to your home network, and
+  using an app or web page. Everything involving wiring behind the walls is
+  electrician territory.
+====
+
+[IMPORTANT]
+.Disclaimer
+====
+This guide is shared by a neighbour, for neighbours, as a community learning
+resource - it is **not** professional advice, and it comes with **no warranty**.
+Neither the author nor other contributors are responsible for any injury, death,
+fire, property damage, or other loss that may result from following it. Any change
+to shared building systems should be approved by building management first, and any
+electrical work must be done by a qualified electrician. Proceed at your own risk,
+and don't feel any pressure to do this yourself if you're not comfortable.
+====
+
+== What is TIS Control, and what did we replace?
+
+Several units in our building, including yours, were built with a proprietary
+control panel system called *TIS Control*. It's a closed system from one
+manufacturer - it works, but you can't see how it works, can't easily add cheaper
+devices to it, and depend entirely on that one company for support and spare parts.
+
+In one unit, we replaced the "brain" of that system with *Home Assistant* - a free,
+open-source home automation platform used by millions of people worldwide. The
+wiring behind your walls, your light switches, and your air-conditioning units don't
+need to change. What changes is *what is in charge* of them.
+
+== What stays the same, what changes
+
+* Your light switches on the wall still work as switches.
+* Your air-conditioning still works from its usual controls.
+* You gain the ability to also control things from a phone app, automate them
+  (e.g. "turn off all lights at midnight"), and combine devices in ways the closed
+  TIS system didn't allow.
+* You are no longer dependent on one manufacturer for support, updates, or spare
+  parts - the software is free, open-source, and maintained by a large community.
+* Nothing about your legal ownership, warranty, or building agreements changes
+  automatically - check with building management before making changes to shared
+  systems.
+
+== The big picture
+
+image::architecture-simple.svg[How the pieces fit together,700,,align="center"]
+
+In plain words:
+
+* A small computer (about the size of a deck of cards, called a *Raspberry Pi*)
+  becomes the new "brain" of your unit, replacing the old TIS Control panel.
+* That brain talks wirelessly, using a technology called *Zigbee*, to your lights,
+  switches, and similar devices.
+* It also talks over your home network to your existing air-conditioning system, so
+  you keep controlling the AC the same way you always did (just from the new
+  system instead of the old one).
+* None of this needs the internet to work day-to-day inside your home. The internet
+  is only involved if you *choose* to turn on the optional ability to control your
+  home from your phone while you're away - and that step is optional, has some
+  security trade-offs, and is explained in the technical guide.
+
+== What you would need (shopping list, in plain terms)
+
+[cols="1,2", options="header"]
+|===
+| Item | What it's for
+
+| A small computer ("Raspberry Pi 5")
+| Runs the Home Assistant software - this becomes the new "brain".
+
+| A memory card or small SSD, and a power supply
+| Storage and power for the small computer.
+
+| A Zigbee "coordinator" (a small network gateway device)
+| Lets the brain talk wirelessly to your lights, switches, and sensors.
+
+| Zigbee-compatible switches/relays/sensors for each room
+| The actual devices being controlled - these may replace or sit behind your
+  existing wall switches (electrician work).
+
+| A network cable or reliable Wi-Fi
+| Connects the small computer to your home network/router.
+|===
+
+Exact models and where to buy them are listed in the
+link:guide-technical.adoc[Technical Guide].
+
+== How to get started, at a high level
+
+. Read this guide fully, and skim the link:guide-technical.adoc[Technical Guide] so
+  you know roughly what's involved.
+. Decide, with building management if relevant, whether you're doing this yourself,
+  with a technical neighbour's help, or hiring someone.
+. Get the hardware from the shopping list above.
+. Have a qualified electrician handle anything involving wiring, wall boxes, or the
+  distribution board.
+. Follow the link:guide-technical.adoc[Technical Guide] to install and configure the
+  software, or have your technical neighbour do it with you watching/learning.
+. Add your devices one room at a time - there's no need to convert the whole unit
+  in one day.
+. Optionally, once everything works locally, consider whether you want remote
+  access from your phone - this is covered, with its risks, in the technical guide.
+
+== Getting help
+
+This is neighbour-to-neighbour support, not a paid service.
+
+* Ask the neighbour(s) who've already done this before experimenting on your own,
+  especially anything touching shared building systems like the VRF
+  air-conditioning.
+* Take it step by step - you don't have to convert everything at once.
+* If something feels unsafe or you're unsure, stop and ask - either a neighbour or a
+  qualified professional (electrician for wiring, building management for shared
+  systems).
+
+[CAUTION]
+====
+Reminder: anything involving live electrical wiring should be done by a qualified
+electrician. This guide is about the software and devices, not about giving anyone
+license to do their own electrical work.
+====

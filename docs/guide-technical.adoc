@@ -1,0 +1,342 @@
+= Technical Guide: Replacing TIS Control with Home Assistant
+:toc: macro
+:toclevels: 3
+:sectnums:
+:source-highlighter: rouge
+:experimental:
+:imagesdir: images
+
+Full technical reference for reproducing this setup: hardware, software components,
+configuration, and optional secure remote access. Written for residents comfortable
+with basic networking/Linux concepts. For a plain-language overview, see the
+link:guide-simple.adoc[Simple Guide].
+
+toc::[]
+
+[WARNING]
+.Electrical safety warning - please read first
+====
+Parts of this project involve wiring connected to *mains / line voltage electricity*.
+
+* Working with live electrical wiring can cause **serious injury, fire, or death**.
+* Any work inside a wall box, distribution board, relay panel, or anything touching
+  mains wiring *must* be performed, or at minimum inspected and signed off, by a
+  qualified electrician familiar with your local electrical code.
+* Everything in this guide below the hardware wiring layer (Raspberry Pi setup,
+  Zigbee coordinator, software configuration, networking) is low-voltage / software
+  work and does not itself require an electrician - but confirm the boundary with a
+  professional if you're ever unsure what's "just a network cable" versus "mains".
+====
+
+[IMPORTANT]
+.Disclaimer - no warranty, use at your own risk
+====
+This documentation and the linked custom integration
+(https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac]) are provided *"as is"*
+as a community resource, with **no warranty of any kind** and **no guarantee of
+fitness for any particular purpose**. The author and contributors are **not liable**
+for any damage, injury, death, fire, data loss, loss of climate control, security
+incident, or other loss arising from using this material. You are responsible for
+complying with local law, electrical code, building rules, and for getting sign-off
+from building management before modifying shared systems (in particular the VRF
+air-conditioning, which may serve more than one unit). All IP addresses, domains,
+usernames, and passwords shown in this guide are **placeholders** - replace them with
+your own values and never commit real credentials to a public repository.
+====
+
+[#_architecture]
+== Architecture
+
+image::architecture-technical.svg[Technical architecture diagram,900,,align="center"]
+
+Components:
+
+[cols="1,3", options="header"]
+|===
+| Component | Role
+
+| Raspberry Pi 5, running Home Assistant OS (HAOS)
+| Host for everything below. Runs Home Assistant Core plus add-ons in isolated
+  containers.
+
+| Home Assistant Core
+| Automations, dashboards, users/auth, and (optionally) the SSL certificate used for
+  remote access.
+
+| Mosquitto add-on
+| Local MQTT broker. Zigbee2MQTT publishes device state here; Home Assistant
+  subscribes to it via the official MQTT integration.
+
+| Zigbee2MQTT add-on
+| Talks to the Zigbee coordinator, exposes every paired Zigbee device over MQTT.
+
+| SMLIGHT SLZB-06M
+| Zigbee 3.0 coordinator. Unlike a plain USB dongle, it's network-attached
+  (Ethernet or Wi-Fi, with PoE support), so Zigbee2MQTT connects to it over TCP
+  instead of needing USB passthrough into the HAOS VM - simpler and more reliable
+  on a Raspberry Pi host.
+
+| Zigbee devices
+| Lights, switches/relays, curtain motors, sensors - one Zigbee network per
+  installation, paired directly to the SLZB-06M.
+
+| `hass-tis-vrf-ac` custom integration
+| Community-written Home Assistant `climate` platform
+  (https://github.com/linusali/hass-tis-vrf-ac[source]) that talks HTTP directly to
+  the existing TIS VRF air-conditioning controller, so the original AC hardware
+  keeps working under Home Assistant instead of the TIS Control panel.
+
+| TIS VRF AC controller
+| Existing proprietary hardware, kept in place. Reachable on the LAN over HTTP,
+  optionally with HTTP Basic Auth.
+
+| DuckDNS + Let's Encrypt add-on (optional)
+| Only needed if you enable remote access. Keeps a free dynamic-DNS hostname
+  pointed at your home IP and automatically renews a free TLS certificate.
+
+| Home router / firewall (optional path only)
+| A single port forward (external 443 -> the Pi's 8123) is the only thing exposed
+  to the internet, and only if you choose to enable remote access.
+|===
+
+Everything inside the "Home LAN" boundary works with **no internet connection**.
+Internet access is only involved in the optional remote-access path described in
+<<_optional_remote_access_over_the_internet_duckdns_lets_encrypt>>.
+
+== Hardware used in this build
+
+[cols="1,2", options="header"]
+|===
+| Item | Notes
+
+| Raspberry Pi 5
+| Host for Home Assistant OS (HAOS). Use a reputable power supply and, ideally, an
+  SSD (via USB or the PCIe hat) rather than only an SD card, for reliability.
+
+| SMLIGHT SLZB-06M
+| Zigbee 3.0 coordinator with Ethernet/Wi-Fi/USB and PoE options. Runs independently
+  of the Pi's USB bus - connect it to your LAN (Ethernet recommended) rather than
+  passing it through as USB.
+
+| Zigbee end devices
+| Lights, relays/switches, curtain motors, sensors, etc. - chosen per room/need.
+  Any Zigbee 3.0 device supported by Zigbee2MQTT should work; check the
+  https://www.zigbee2mqtt.io/supported-devices/[Zigbee2MQTT supported devices list]
+  before buying.
+
+| Existing TIS VRF AC hardware
+| Kept as-is. Only its network controller/gateway needs to be reachable from the
+  Pi over the LAN.
+|===
+
+Intentionally *not* covered here, to keep the base install simple: any additional
+integrations, add-ons, or automations beyond what's needed to reproduce this core
+setup. Add those later once the basics are working.
+
+== Installing Home Assistant OS on the Raspberry Pi 5
+
+. Download the official Raspberry Pi 5 HAOS image from the
+  https://www.home-assistant.io/installation/raspberrypi[Home Assistant installation
+  page].
+. Flash it to your SSD/SD card using
+  https://www.home-assistant.io/common-tasks/os/#installing-home-assistant-operating-system[Raspberry
+  Pi Imager] or `balenaEtcher`.
+. Boot the Pi with it connected to your router via Ethernet (recommended for
+  reliability).
+. Browse to `\http://homeassistant.local:8123` from a device on the same network and
+  complete the onboarding wizard (create your admin account - use a strong,
+  unique password).
+. Apply any pending HAOS/Core updates from *Settings -> System -> Updates* before
+  continuing.
+
+== Setting up Zigbee2MQTT with the SLZB-06M
+
+. Connect the SLZB-06M to your network (Ethernet recommended) and give it a fixed
+  IP, either via a DHCP reservation on your router or a static IP on the device
+  itself. This guide uses `192.0.2.50` as a placeholder - use your own address.
+. Install the *Mosquitto broker* add-on from *Settings -> Add-ons -> Add-on Store*,
+  start it, and create a dedicated MQTT user for Zigbee2MQTT (do not reuse your HA
+  admin account).
+. Install the *Zigbee2MQTT* add-on from the add-on store.
+. Configure the add-on (via its *Configuration* tab, or `configuration.yaml` inside
+  the add-on) to point at the coordinator over the network rather than USB:
++
+[source,yaml]
+----
+serial:
+  port: tcp://192.0.2.50:6638   # <-- replace with your SLZB-06M's own IP
+  adapter: ezsp
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://core-mosquitto:1883
+  user: <MQTT_USERNAME>
+  password: <MQTT_PASSWORD_REDACTED>
+----
+. Start the add-on and open its web UI (via the *Zigbee2MQTT* panel in the HA
+  sidebar) to confirm the coordinator connects.
+. In Home Assistant, add the *MQTT* integration (*Settings -> Devices & Services ->
+  Add Integration -> MQTT*) pointing at the same broker - Zigbee2MQTT devices will
+  then appear automatically via MQTT discovery.
+. Put the Zigbee2MQTT UI into pairing mode and pair devices one at a time, room by
+  room. Give each device a clear, consistent name as you go (e.g.
+  `living_room_ceiling_light`) - this pays off later when writing automations.
+
+TIP: Keep the coordinator away from Wi-Fi routers/USB 3.0 devices where possible;
+2.4 GHz interference is the most common cause of a flaky Zigbee network.
+
+== Controlling the existing VRF air-conditioning
+
+The https://github.com/linusali/hass-tis-vrf-ac[`hass-tis-vrf-ac`] integration is a
+custom `climate` platform that talks HTTP directly to the TIS VRF AC controller that
+was already on your network, so the original AC hardware keeps working under Home
+Assistant.
+
+. Confirm the TIS VRF AC controller's IP address on your LAN (check your router's
+  client list, or the original TIS Control installation documentation).
+. Install the integration, following the
+  https://github.com/linusali/hass-tis-vrf-ac[repository's own `INSTALLATION.md`] -
+  either via HACS (custom repository) or by copying `custom_components/ac_vrf` into
+  your HAOS `config/custom_components` folder (accessible via the *Samba* or
+  *File editor* add-on, or SSH).
+. Restart Home Assistant, then add the platform to your configuration. For example,
+  in `configuration.yaml`:
++
+[source,yaml]
+----
+climate:
+  - platform: ac_vrf
+    host: 192.0.2.251                 # <-- replace with your AC controller's IP
+    username: <AC_CONTROLLER_USERNAME>  # optional, only if your controller requires auth
+    password: <AC_CONTROLLER_PASSWORD_REDACTED>  # optional, can be blank if unset
+
+logger:
+  default: info
+  logs:
+    custom_components.ac_vrf: debug     # helpful while getting this working, remove after
+----
+. Restart Home Assistant again and confirm a new climate entity appears for each AC
+  zone/unit. Test basic on/off and temperature-setpoint changes before wiring it
+  into any automations.
+. Check the repository's own
+  https://github.com/linusali/hass-tis-vrf-ac/blob/main/TROUBLESHOOTING.md[`TROUBLESHOOTING.md`]
+  and the included connection-test script if the controller doesn't respond -
+  it's usually an IP, firewall, or auth mismatch rather than a Home Assistant
+  problem.
+
+[#_optional_remote_access_over_the_internet_duckdns_lets_encrypt]
+== Optional: remote access over the internet (DuckDNS + Let's Encrypt)
+
+Everything above works fully on your local network with **no internet exposure**.
+This section is entirely optional and only needed if you want to control your home
+from outside your home Wi-Fi (e.g. from your phone's mobile data). It describes the
+free path officially documented by Home Assistant - a paid *Nabu Casa* subscription
+is a simpler, more hands-off alternative if you'd rather not manage certificates or
+port forwarding yourself.
+
+[CAUTION]
+====
+Forwarding a port from the internet directly to a device on your home network
+increases your exposure to attacks. Only do this if you understand the trade-off,
+and follow the hardening steps below.
+====
+
+. *Register a free hostname* at https://www.duckdns.org[duckdns.org] using your
+  email address, e.g. `linusali`, giving you `linusali.duckdns.org` (this guide
+  uses `<your-subdomain>.duckdns.org` as a placeholder - use your own). Note the
+  DuckDNS token shown on their site; treat it like a password.
+. *Install the official DuckDNS add-on* (*Settings -> Add-ons -> Add-on Store ->
+  DuckDNS*). Configure it with:
++
+[source,yaml]
+----
+lets_encrypt:
+  accept_terms: true
+  certfile: fullchain.pem
+  keyfile: privkey.pem
+token: <DUCKDNS_TOKEN_REDACTED>
+domains:
+  - <your-subdomain>.duckdns.org
+aliases: []
+----
++
+This add-on keeps the DNS record pointed at your home IP *and* automatically
+requests/renews a free Let's Encrypt TLS certificate for that hostname.
+. *Point Home Assistant at the certificate* in `configuration.yaml`:
++
+[source,yaml]
+----
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+----
+. *Forward one port on your router*: external `443` -> the Raspberry Pi's internal
+  IP, port `8123`. Consult your router's manual for "port forwarding" or "virtual
+  server" settings - the exact menu varies by manufacturer.
+. *Set the external URL* in *Settings -> System -> Network -> Home Assistant URL* to
+  `\https://<your-subdomain>.duckdns.org`.
+. Restart Home Assistant and test from a mobile-data connection (Wi-Fi turned off)
+  before relying on it.
+
+=== Hardening a directly-exposed Home Assistant
+
+Because this path exposes Home Assistant itself to the internet (rather than going
+through a third-party relay like Nabu Casa), take these precautions:
+
+* Use a strong, unique admin password, and enable
+  https://www.home-assistant.io/docs/authentication/two-factor-auth/[two-factor
+  authentication] on every account.
+* Create a separate, non-administrator account for any household member who only
+  needs day-to-day control.
+* Enable *Settings -> System -> Network -> "Login attempts threshold"* / IP-ban
+  behaviour so repeated failed logins get blocked automatically.
+* Keep HAOS, Core, and all add-ons updated - security fixes ship regularly.
+* Do not reuse the DuckDNS token, MQTT password, or AC controller password anywhere
+  else, and never commit any of them to a public repository (including this one).
+* If you later stop needing remote access, remove the port forward and disable the
+  DuckDNS add-on rather than leaving it running unused.
+
+== Backups and updates
+
+* Enable Home Assistant's built-in
+  https://www.home-assistant.io/common-tasks/general/#back-up-and-restore-your-configuration[automatic
+  backups] (*Settings -> System -> Backups*) before making significant changes, and
+  before every major HAOS/Core update.
+* Store at least one backup copy off the Pi itself (network share, cloud storage,
+  USB drive) so a hardware failure doesn't take your only backup with it.
+* Before pairing/unpairing Zigbee devices in bulk, take a fresh backup - Zigbee
+  network data lives in Zigbee2MQTT's own state and is included in a full HA
+  backup, but is worth confirming.
+
+== Troubleshooting
+
+[cols="1,2", options="header"]
+|===
+| Symptom | Likely cause / where to look
+
+| Zigbee2MQTT add-on won't connect to the coordinator
+| Wrong IP/port for the SLZB-06M, or it's not reachable on the network. Check its
+  own web UI (reachable directly by browsing to its IP) and the add-on logs.
+
+| Zigbee devices randomly drop offline
+| Usually 2.4 GHz interference (Wi-Fi routers, USB 3.0 cables/hubs) or the
+  coordinator being too far from devices. Try relocating the coordinator.
+
+| `ac_vrf` climate entity doesn't appear
+| Check `Settings -> System -> Logs` for `custom_components.ac_vrf` errors, verify
+  the controller's IP is correct and reachable (`ping`), and see the integration's
+  own
+  https://github.com/linusali/hass-tis-vrf-ac/blob/main/TROUBLESHOOTING.md[TROUBLESHOOTING.md].
+
+| Can't reach Home Assistant from outside the home network
+| Confirm the port forward is active (test with an online port-checker from
+  outside your network), that the DuckDNS add-on log shows successful cert
+  issuance, and that your ISP isn't using carrier-grade NAT (which blocks inbound
+  port forwarding entirely - a VPN-based alternative would be needed in that case).
+|===
+
+== Contributing back
+
+If you improve on this setup - a clearer config, a fix, an extra safety note - please
+contribute it back (pull request, or pass it to whoever maintains this repository)
+so the next neighbour benefits too.

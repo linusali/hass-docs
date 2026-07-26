@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1000" height="800" fill="#ffffff"/>
+
+  <text x="500" y="32" font-size="22" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Architecture (technical view)</text>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#444"/>
+    </marker>
+  </defs>
+
+  <!-- Internet cloud -->
+  <ellipse cx="150" cy="90" rx="95" ry="42" fill="#f5f5f5" stroke="#888" stroke-width="2"/>
+  <text x="150" y="85" font-size="14" text-anchor="middle" fill="#1a1a1a">Internet</text>
+  <text x="150" y="102" font-size="11" text-anchor="middle" fill="#666">HA companion app /</text>
+  <text x="150" y="115" font-size="11" text-anchor="middle" fill="#666">browser, from outside home</text>
+
+  <!-- DuckDNS -->
+  <rect x="330" y="55" width="200" height="70" rx="8" fill="#f3e8ff" stroke="#7e22ce" stroke-width="2"/>
+  <text x="430" y="80" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">DuckDNS</text>
+  <text x="430" y="98" font-size="11" text-anchor="middle" fill="#444">free dynamic DNS</text>
+  <text x="430" y="113" font-size="11" text-anchor="middle" fill="#444">yourname.duckdns.org</text>
+
+  <!-- Router -->
+  <rect x="620" y="55" width="240" height="90" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+  <text x="740" y="80" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Home Router / Firewall</text>
+  <text x="740" y="98" font-size="11" text-anchor="middle" fill="#444">Port forward: 443 -&gt; 8123</text>
+  <text x="740" y="113" font-size="11" text-anchor="middle" fill="#444">(HTTPS to RPi5 only)</text>
+  <text x="740" y="130" font-size="11" text-anchor="middle" fill="#b91c1c">only if remote access enabled</text>
+
+  <!-- LAN boundary box -->
+  <rect x="60" y="200" width="880" height="560" rx="14" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8,5"/>
+  <text x="90" y="222" font-size="13" fill="#64748b">Home LAN</text>
+
+  <!-- RPi5 HAOS box -->
+  <rect x="90" y="245" width="420" height="330" rx="10" fill="#eafbea" stroke="#16a34a" stroke-width="3"/>
+  <text x="300" y="270" font-size="15" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Raspberry Pi 5 - Home Assistant OS (HAOS)</text>
+
+  <rect x="115" y="285" width="370" height="55" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="300" y="308" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Home Assistant Core</text>
+  <text x="300" y="325" font-size="11" text-anchor="middle" fill="#555">automations, dashboards, users, SSL cert</text>
+
+  <rect x="115" y="350" width="175" height="55" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="202" y="373" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Mosquitto</text>
+  <text x="202" y="390" font-size="11" text-anchor="middle" fill="#555">MQTT broker (add-on)</text>
+
+  <rect x="300" y="350" width="185" height="55" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="392" y="373" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Zigbee2MQTT</text>
+  <text x="392" y="390" font-size="11" text-anchor="middle" fill="#555">add-on</text>
+
+  <rect x="115" y="415" width="370" height="60" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="300" y="437" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">hass-tis-vrf-ac (custom integration)</text>
+  <text x="300" y="453" font-size="11" text-anchor="middle" fill="#555">climate: platform ac_vrf -&gt; talks HTTP to</text>
+  <text x="300" y="467" font-size="11" text-anchor="middle" fill="#555">TIS VRF AC controller</text>
+
+  <rect x="115" y="485" width="370" height="70" rx="6" fill="#fffbea" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="300" y="507" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">DuckDNS + Let's Encrypt add-on</text>
+  <text x="300" y="524" font-size="11" text-anchor="middle" fill="#555">renews free TLS cert, updates DNS record</text>
+  <text x="300" y="540" font-size="11" text-anchor="middle" fill="#555">(only needed if remote access enabled)</text>
+
+  <!-- SLZB-06M -->
+  <rect x="560" y="245" width="200" height="90" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+  <text x="660" y="270" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">SMLIGHT SLZB-06M</text>
+  <text x="660" y="288" font-size="11" text-anchor="middle" fill="#444">Zigbee 3.0 coordinator</text>
+  <text x="660" y="303" font-size="11" text-anchor="middle" fill="#444">network-attached (Eth/Wi-Fi)</text>
+  <text x="660" y="318" font-size="11" text-anchor="middle" fill="#444">tcp://&lt;ip&gt;:6638</text>
+
+  <!-- Zigbee devices -->
+  <rect x="790" y="245" width="150" height="90" rx="8" fill="#fff7e6" stroke="#d97706" stroke-width="2"/>
+  <text x="865" y="268" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Zigbee devices</text>
+  <text x="865" y="286" font-size="11" text-anchor="middle" fill="#444">lights, switches,</text>
+  <text x="865" y="301" font-size="11" text-anchor="middle" fill="#444">curtains, sensors</text>
+  <text x="865" y="316" font-size="11" text-anchor="middle" fill="#444">(per room)</text>
+
+  <!-- TIS VRF AC controller -->
+  <rect x="560" y="370" width="200" height="85" rx="8" fill="#fde8e8" stroke="#b91c1c" stroke-width="2"/>
+  <text x="660" y="393" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">TIS VRF AC Controller</text>
+  <text x="660" y="410" font-size="11" text-anchor="middle" fill="#444">LAN, HTTP (+ optional</text>
+  <text x="660" y="424" font-size="11" text-anchor="middle" fill="#444">basic-auth), fixed IP</text>
+  <text x="660" y="440" font-size="11" text-anchor="middle" fill="#444">proprietary hardware kept</text>
+
+  <!-- AC units -->
+  <rect x="790" y="370" width="150" height="85" rx="8" fill="#fde8e8" stroke="#b91c1c" stroke-width="2"/>
+  <text x="865" y="400" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">VRF Indoor</text>
+  <text x="865" y="418" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">AC Units</text>
+
+  <!-- legend note -->
+  <rect x="90" y="600" width="820" height="130" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="110" y="625" font-size="13" font-weight="bold" fill="#1a1a1a">Notes</text>
+  <text x="110" y="648" font-size="12" fill="#333">- Everything inside the dashed "Home LAN" box works fine with no internet connection at all.</text>
+  <text x="110" y="668" font-size="12" fill="#333">- The purple/blue remote-access path (DuckDNS, router, Let's Encrypt) is optional and only needed</text>
+  <text x="110" y="686" font-size="12" fill="#333">  if you want to control your home from outside your Wi-Fi.</text>
+  <text x="110" y="706" font-size="12" fill="#333">- Replace every IP address, domain and password shown here with your own values - none of the</text>
+  <text x="110" y="724" font-size="12" fill="#333">  values in this diagram are real.</text>
+
+  <!-- Arrows -->
+  <line x1="245" y1="90" x2="325" y2="90" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="530" y1="90" x2="615" y2="90" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="740" y1="145" x2="450" y2="245" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+
+  <line x1="485" y1="380" x2="555" y2="290" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="760" y1="290" x2="785" y2="290" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="485" y1="440" x2="555" y2="410" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="760" y1="410" x2="785" y2="410" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
+</svg>

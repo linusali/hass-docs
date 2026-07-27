@@ -55,6 +55,7 @@ for guide in "${guides[@]}"; do
 
   case "$base" in
     *simple*)    pdf_name="SSC-Home-Assistant-Simple-Guide.pdf" ;;
+    *checklist*) pdf_name="SSC-Home-Assistant-Setup-Checklist.pdf" ;;
     *technical*) pdf_name="SSC-Home-Assistant-Technical-Guide.pdf" ;;
     *)           pdf_name="SSC-Home-Assistant-${base#guide-}.pdf" ;;
   esac

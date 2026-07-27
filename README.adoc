@@ -91,13 +91,18 @@ dashboard), and where the official documentation lives.
 | Guide | Who it's for
 
 | link:phases/phase-4/guide-simple.adoc[Simple Guide]
-| Residents with no technical background who want to understand *what this is*,
-  *what changes for them*, and what to ask a technical neighbour for help with.
+| Residents with no technical background who want to understand *what this is*
+  and *what changes for them* - explains the concepts, doesn't set anything up.
+
+| link:phases/phase-4/guide-checklist.adoc[Setup Checklist]
+| **Start here to actually do it yourself.** No explanations, just numbered
+  steps and checkboxes in order, with a fill-in-the-blanks worksheet and clear
+  "ask in WhatsApp" flags at the few steps that need extra care.
 
 | link:phases/phase-4/guide-technical.adoc[Technical Guide]
-| Residents comfortable with networking/Linux basics who want the full,
-  step-by-step technical build: bill of materials, Zigbee2MQTT setup, the VRF AC
-  integration, secure remote access, and the roadmap.
+| Residents comfortable with networking/Linux basics who want the full detail
+  behind every step: architecture, bill of materials, the VRF AC integration,
+  secure remote access, troubleshooting, and the roadmap.
 |===
 
 PDF copies of both guides, formatted for sharing on WhatsApp, are in

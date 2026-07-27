@@ -38,11 +38,14 @@ toc::[]
 
 == How to convert
 
-The two main guides document exactly this phase's conversion:
+Three guides document this phase's conversion:
 
-* link:guide-simple.adoc[Simple Guide] - the plain-language overview
-* link:guide-technical.adoc[Technical Guide] - the full build,
-  step by step
+* link:guide-simple.adoc[Simple Guide] - the plain-language overview, explains
+  the concepts but doesn't set anything up
+* link:guide-checklist.adoc[Setup Checklist] - **start here to actually do
+  it** - numbered steps and checkboxes, no explanations
+* link:guide-technical.adoc[Technical Guide] - the full detail behind every
+  step, for when you want to understand the "why" or something goes wrong
 
 Phase-4-specific automation examples live in
 link:../../automations/phase-4/[`automations/phase-4/`].

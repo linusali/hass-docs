@@ -5,11 +5,14 @@
 
 This guide explains, in plain language, what was changed in one Phase 4 villa of
 our SSC community, why, and what it would mean for you if you wanted the same
-thing. It assumes no technical background. For step-by-step technical
-instructions, see the link:guide-technical.adoc[Technical Guide], or ask a
-technically-minded neighbour to walk through it with you. If you've never heard
-of Home Assistant at all, read
+thing. It assumes no technical background, and doesn't set anything up itself.
+If you've never heard of Home Assistant at all, read
 link:../../docs/home-assistant-intro.adoc[What is Home Assistant?] first.
+
+Ready to actually do the conversion? Follow the
+link:guide-checklist.adoc[Setup Checklist] - plain numbered steps, no
+explanations. For the full detail behind any step, or if something doesn't
+match what you're seeing, see the link:guide-technical.adoc[Technical Guide].
 
 toc::[]
 
@@ -124,19 +127,17 @@ because yours are being reused.
 |===
 
 Exact details and where things plug in are in the
-link:guide-technical.adoc[Technical Guide].
+link:guide-checklist.adoc[Setup Checklist].
 
 == How to get started, at a high level
 
-. Read this guide fully, and skim the link:guide-technical.adoc[Technical Guide]
-  so you know roughly what's involved.
+. Read this guide fully, so you know roughly what's involved.
 . Decide whether you're doing this yourself, with a technical neighbour's help,
   or learning alongside them - this is a DIY project, so neighbours are the
   support network.
 . Get the three or four items from the shopping list above.
-. Follow the link:guide-technical.adoc[Technical Guide] to install and configure
-  the software, or have your technical neighbour do it with you
-  watching/learning.
+. Work through the link:guide-checklist.adoc[Setup Checklist] step by step,
+  or have your technical neighbour do it with you watching/learning.
 . Re-pair your devices one room at a time - there's no need to convert the whole
   villa in one day.
 . If a step ever seems to involve opening a wall box or touching wiring, stop -

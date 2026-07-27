@@ -8,9 +8,11 @@
 
 Full technical reference for reproducing the Phase 4 conversion: bill of
 materials, software components, configuration, remote access, and the roadmap.
-Written for residents comfortable with basic networking/Linux concepts. For a
-plain-language overview, see the link:guide-simple.adoc[Simple Guide]; if
-Home Assistant itself is new to you, start with
+Written for residents comfortable with basic networking/Linux concepts. If you
+just want the steps without the explanations, use the
+link:guide-checklist.adoc[Setup Checklist] instead. For a plain-language
+overview, see the link:guide-simple.adoc[Simple Guide]; if Home Assistant
+itself is new to you, start with
 link:../../docs/home-assistant-intro.adoc[What is Home Assistant?].
 
 toc::[]

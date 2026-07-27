@@ -1,0 +1,215 @@
+= SSC Phase 4: Setup Checklist
+:toc: macro
+:toclevels: 2
+:imagesdir: images
+
+A print-it-out, tick-it-off checklist for actually doing the conversion -
+no explanations, just the steps in order. If you'd like to understand *why*
+first, read the link:guide-simple.adoc[Simple Guide]. If a step here doesn't
+say enough and you want the full detail, the same step is covered in the
+link:guide-technical.adoc[Technical Guide].
+
+toc::[]
+
+[WARNING]
+.⚠️ WARNING: Electrical safety - please read first
+====
+Every step in this checklist is software and cabling - **nothing here involves
+opening a wall box or touching mains wiring**. If you ever find yourself about
+to do that, stop: that's a licensed electrician's job, not part of this
+checklist.
+====
+
+[IMPORTANT]
+.❗ IMPORTANT: Disclaimer
+====
+This checklist is shared by a neighbour, for neighbours, as a community
+learning resource - it is **not** professional advice and comes with **no
+warranty**. This is a personal DIY project inside your own villa; community
+management is not involved. Help comes from neighbours in the WhatsApp group.
+Proceed at your own pace and risk - see the full disclaimer in the
+link:guide-technical.adoc[Technical Guide].
+====
+
+TIP: Every checkbox is small on purpose. If one ever takes more than about 15
+minutes or you're not sure what you're looking at, that's your cue to post a
+photo/question in the WhatsApp group rather than guessing.
+
+== My setup info
+
+Fill this in as you go - you'll need these values again and again over the
+next steps.
+
+[cols="2,3", options="header"]
+|===
+| What | Value
+
+| My Raspberry Pi's address
+| `http://homeassistant.local:8123` (usually works as-is)
+
+| My SLZB-06M's IP address
+|
+
+| My MQTT username (you choose this in Stage 3)
+|
+
+| My TIS VRF AC controller's IP address
+|
+
+| My Tailscale account email (Stage 7)
+|
+|===
+
+== Stage 1: Buy the parts
+
+* [ ] Raspberry Pi 5, **8 GB RAM** version
+* [ ] Official Raspberry Pi 5 USB-C power supply (27 W)
+* [ ] microSD card, **64 GB or larger**, A2-rated
+* [ ] SMLIGHT **SLZB-06M** (Zigbee coordinator)
+* [ ] 1-2 Ethernet cables
+
+That's everything - your existing switches, motion sensors, and
+air-conditioning are reused, not bought again.
+
+== Stage 2: Set up the Raspberry Pi
+
+* [ ] On a laptop/PC, download
+  https://www.home-assistant.io/installation/raspberrypi[Raspberry Pi Imager]
+* [ ] Open it, choose device **Raspberry Pi 5**
+* [ ] Choose OS -> **Home Assistant** -> **Home Assistant OS**
+* [ ] Choose storage -> your microSD card
+* [ ] Click **Write**, and wait for it to finish (don't unplug the card early)
+* [ ] Put the microSD card into the Pi
+* [ ] Connect the Pi to your router with an Ethernet cable
+* [ ] Connect the power supply to boot it
+* [ ] Wait about 10 minutes for first boot (grab a coffee)
+* [ ] On a phone/laptop on the same Wi-Fi, open a browser to
+  `\http://homeassistant.local:8123`
+* [ ] Follow the on-screen wizard: create your name, username, and a
+  **strong password** - write the password down somewhere safe
+* [ ] When asked about location/currency/unit system, fill in your own
+* [ ] Skip adding devices for now - click through to the dashboard
+* [ ] Go to **Settings -> System -> Updates** and install anything pending,
+  then wait for the Pi to restart
+
+🆘 *Stuck?* If `homeassistant.local` doesn't load, find the Pi's IP address
+from your router's device list instead and use `\http://<that-ip>:8123`.
+
+== Stage 3: Install the add-ons
+
+* [ ] Go to **Settings -> Add-ons -> Add-on Store**
+* [ ] Search for **Mosquitto broker**, install it, then start it
+* [ ] Under the Mosquitto add-on's **Configuration** tab, add a login for
+  Zigbee2MQTT to use (pick any username/password that isn't your HA admin
+  login) - write them into the worksheet above
+* [ ] Back in the Add-on Store, search for **Zigbee2MQTT**, and install it
+  (don't start it yet)
+
+== Stage 4: Connect the Zigbee coordinator
+
+* [ ] Plug the SLZB-06M into your router with an Ethernet cable, and power it
+  on
+* [ ] Find its IP address (check your router's connected-devices list, or the
+  SMLIGHT app/instructions that came with it) - write it into the worksheet
+  above
+* [ ] Open the Zigbee2MQTT add-on's **Configuration** tab and paste this in,
+  changing only the IP address and the MQTT username/password from Stage 3:
++
+[source,yaml]
+----
+serial:
+  port: tcp://192.0.2.50:6638   # <-- your SLZB-06M's IP from the worksheet
+  adapter: ezsp
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://core-mosquitto:1883
+  user: <your Mosquitto username>
+  password: <your Mosquitto password>
+----
+* [ ] Save, then **start** the Zigbee2MQTT add-on
+* [ ] Open the Zigbee2MQTT panel (left sidebar) and check it shows the
+  coordinator as connected, not an error
+
+🆘 *Stuck?* Double-check the IP address is exactly right and that the Pi and
+the SLZB-06M are both plugged into the same router - this is the single most
+common snag, and a neighbour who's done it can usually spot it fast.
+
+* [ ] Go to **Settings -> Devices & Services -> Add Integration**, search for
+  **MQTT**, and point it at the same broker (`core-mosquitto`)
+
+== Stage 5: Move your switches and sensors over
+
+This is one room at a time - there's no rush, and nothing breaks if you stop
+partway and come back later.
+
+For **each** light switch or motion sensor you want to move:
+
+* [ ] Open the Zigbee2MQTT panel and turn on **Permit join**
+* [ ] Put that specific device into pairing mode (button-press or power-cycle
+  sequence - **ask in the WhatsApp group for your exact device model**, since
+  it varies and neighbours who've done it already know the sequence)
+* [ ] Watch the Zigbee2MQTT log until the device appears as joined
+* [ ] Rename it to something clear, e.g. `living_room_ceiling_light` or
+  `hallway_motion`
+* [ ] Test it from the Zigbee2MQTT panel or a dashboard tile before moving to
+  the next device
+
+🆘 *This is the step most worth doing alongside a neighbour the first time* -
+once you've seen one device paired, the rest are the same pattern.
+
+== Stage 6: Get your air-conditioning working
+
+This step edits a configuration file by hand - if that sounds daunting, this
+is a good one to ask a technical neighbour to do with you.
+
+* [ ] Find your TIS VRF AC controller's IP address (check your router's
+  device list)
+* [ ] Install the **File editor** add-on from the Add-on Store (or ask a
+  neighbour to help you connect via Samba/SSH instead)
+* [ ] Open `configuration.yaml` and add, changing only the IP (and username/
+  password if your installer set any):
++
+[source,yaml]
+----
+climate:
+  - platform: ac_vrf
+    host: 192.0.2.251   # <-- your AC controller's IP
+----
+* [ ] Follow the
+  https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac] repository's
+  own install instructions to add the integration files themselves (via HACS
+  or by copying the files in) - this only needs doing once, before the config
+  above will work
+* [ ] Restart Home Assistant (**Settings -> System -> Restart**)
+* [ ] Check a new air-conditioning entity appears, and test turning it on/off
+
+== Stage 7 (optional): Control it from your phone, away from home
+
+Skip this stage entirely if you're happy only controlling things while on
+your home Wi-Fi - everything above already works fully without it.
+
+* [ ] Go to **Settings -> Add-ons -> Add-on Store**, install the **Tailscale**
+  add-on, and start it
+* [ ] Open the add-on's web UI and sign in (Google/Microsoft/GitHub login all
+  work) - write the account email into the worksheet
+* [ ] Install the **Tailscale** app on your phone from your app store, and
+  sign in with the *same* account
+* [ ] Install the **Home Assistant** companion app on your phone, and connect
+  it using the Tailscale address shown in the add-on's log
+
+== Stage 8: Protect your work
+
+* [ ] Go to **Settings -> System -> Backups** and create a backup
+* [ ] Turn on automatic backups if offered
+* [ ] Note somewhere outside the Pi (phone notes, cloud drive) where that
+  backup is stored
+
+== You're done - what next
+
+* [ ] Browse the
+  link:../../automations/README.adoc[automation library] for ideas other
+  villas are using, and try adding one
+* [ ] Share anything you learned (a pairing sequence, a snag and its fix)
+  back to the WhatsApp group or this repository so the next neighbour has an
+  easier time

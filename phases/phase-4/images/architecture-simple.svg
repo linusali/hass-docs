@@ -37,13 +37,13 @@
 <rect x="64" y="320" width="288" height="128" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
 <text x="80" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">💡</text>
 <text x="106" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Lights &amp; switches</text>
-<text x="80" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">The switches already on your walls -</text>
-<text x="80" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">now reporting over Zigbee instead of TIS.</text>
+<text x="80" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">The switches already on your walls</text>
+<text x="80" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">already speak Zigbee - just re-paired.</text>
 <rect x="376" y="320" width="288" height="128" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
-<text x="392" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🌡️</text>
-<text x="418" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Sensors</text>
-<text x="392" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Your existing sensors, repurposed</text>
-<text x="392" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">the same way.</text>
+<text x="392" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🚶</text>
+<text x="418" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Motion sensors</text>
+<text x="392" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Your existing sensors, re-paired</text>
+<text x="392" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">the same way - nothing new to buy.</text>
 <rect x="688" y="320" width="288" height="128" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
 <text x="704" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">❄️</text>
 <text x="730" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Air conditioning</text>
@@ -52,4 +52,4 @@
 <path d="M270,178 C270,263.2 208.0,263.2 208.0,320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
 <path d="M270,178 C270,263.2 520.0,263.2 520.0,320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
 <path d="M270,178 C270,263.2 832.0,263.2 832.0,320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
-<text x="520" y="610" font-size="12" fill="#898781" font-weight="400" text-anchor="middle">Nothing here gets replaced - your existing switches, sensors, and AC are put to work under a new brain.</text></svg>
+<text x="520" y="610" font-size="12" fill="#898781" font-weight="400" text-anchor="middle">Nothing gets replaced and no new switches or sensors are bought - the ones you have are re-paired to the new brain.</text></svg>

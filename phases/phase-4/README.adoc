@@ -1,0 +1,62 @@
+= Phase 4: TIS Control
+:toc: macro
+:toclevels: 2
+
+Phase 4 villas shipped with *TIS Control* as the built-in home automation
+system. This is the phase where the first successful Home Assistant conversion
+was done, so it's the best-documented path in this repository.
+
+toc::[]
+
+== What Phase 4 villas have
+
+[cols="1,2", options="header"]
+|===
+| Built-in hardware | Notes
+
+| TIS Control panel
+| The proprietary "brain". Left in place, unpowered/idle after conversion -
+  nothing is damaged, and the change is reversible.
+
+| TIS light switches
+| **Native Zigbee devices.** Re-paired to your own coordinator - reused at zero
+  cost.
+
+| Motion sensors
+| **Native Zigbee devices.** Re-paired the same way.
+
+| TIS VRF AC controller + indoor units
+| One dedicated controller and AC unit per villa (not shared). Controlled from
+  Home Assistant via the
+  https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac] custom
+  integration over the LAN.
+
+| RS485 bus devices (additional motion sensors, water & power metering)
+| Not yet integrated - see the
+  link:guide-technical.adoc#_roadmap[roadmap] in the technical guide.
+|===
+
+== How to convert
+
+The two main guides document exactly this phase's conversion:
+
+* link:guide-simple.adoc[Simple Guide] - the plain-language overview
+* link:guide-technical.adoc[Technical Guide] - the full build,
+  step by step
+
+Phase-4-specific automation examples live in
+link:../../automations/phase-4/[`automations/phase-4/`].
+
+== Known device pairing notes
+
+The pairing-mode sequence for each TIS device model is being collected here as
+neighbours document them. If you've worked out the sequence for a model not
+listed, please add it.
+
+[cols="1,2", options="header"]
+|===
+| Device model | Pairing-mode sequence
+
+| _(to be documented)_
+| Ask in the WhatsApp group - the villas that converted first have working notes.
+|===

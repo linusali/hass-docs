@@ -1,0 +1,65 @@
+= SSC Automation Library
+:toc!:
+
+Real automations and scripts from villas that have converted to Home Assistant -
+copy them, adapt them, learn from them.
+
+== How it's organized
+
+[cols="1,2", options="header"]
+|===
+| Folder | What goes in it
+
+| link:common/[`common/`]
+| Automations useful in **any** villa, regardless of phase - e.g. "all lights
+  off at midnight", presence-based notifications, backup reminders.
+
+| link:phase-4/[`phase-4/`]
+| Automations that depend on **Phase 4's hardware** - TIS Zigbee switches,
+  motion sensors, or the VRF AC via `hass-tis-vrf-ac`.
+
+| `phase-1/`, `phase-2/`, `phase-3/`
+| Created as soon as the first resident of that phase has something to share.
+|===
+
+== Format for contributions
+
+One YAML file per automation, with a comment header. Keep it copy-pasteable:
+
+[source,yaml]
+----
+# What it does:  Hallway light follows motion at night
+# Needs:         a motion sensor entity, a light/switch entity
+# Contributed:   <your name or villa, if you wish>
+alias: Hallway motion light (night)
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.hallway_motion   # <-- your motion sensor
+    to: "on"
+conditions:
+  - condition: sun
+    after: sunset
+    before: sunrise
+actions:
+  - action: light.turn_on
+    target:
+      entity_id: light.hallway                # <-- your light
+mode: single
+----
+
+Rules of the road:
+
+* **Mask everything private** before contributing: no real IP addresses, tokens,
+  passwords, coordinates, or anything identifying a specific villa. Use
+  placeholder entity names (`binary_sensor.hallway_motion`) - the person copying
+  it will substitute their own.
+* Add a short comment header (what it does, what entities it needs) so others
+  can evaluate it at a glance.
+* Prefer the modern `triggers:`/`conditions:`/`actions:` YAML shape shown above,
+  which matches what Home Assistant's UI editor produces today.
+
+== Contributing
+
+Open a pull request, or send the YAML to whoever maintains this repository (the
+WhatsApp group knows). Nothing is too small - a two-line automation that solved
+a real annoyance is exactly what this library is for.

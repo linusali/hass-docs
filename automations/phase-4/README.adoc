@@ -1,0 +1,10 @@
+= Phase 4 automations
+:toc!:
+
+Automations that depend on Phase 4 hardware: TIS Zigbee switches, motion
+sensors, and the VRF air-conditioning via
+https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac].
+
+The first real examples are on their way - the Phase 4 villa that completed the
+conversion is preparing its automations for sharing. See the
+link:../README.adoc[library README] for the contribution format.

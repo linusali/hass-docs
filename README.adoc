@@ -1,15 +1,15 @@
-= Replacing TIS Control with Home Assistant
+= SSC Home Automation Hub
 :toc: macro
 :toclevels: 2
 :sectnums:
 :source-highlighter: rouge
 :experimental:
-:imagesdir: docs/images
+:imagesdir: phases/phase-4/images
 
-A community project to document how one villa in our villa community replaced the
-proprietary *TIS Control* panel with the free, open-source *Home Assistant*
-platform - so neighbours with the same wiring can do the same, learn from what
-worked, and support each other.
+The central knowledge base for residents of the *SSC villa community* who want to
+take control of their home automation with the free, open-source
+*Home Assistant* platform - replacing the proprietary systems our villas shipped
+with, at little to no extra hardware cost, as a neighbour-to-neighbour DIY effort.
 
 toc::[]
 
@@ -43,88 +43,141 @@ or reliability.
   responsible or liable** for any damage, injury, death, fire, property loss, data
   loss, loss of climate control comfort, or any other direct, indirect, or
   consequential loss arising from following this guide or using the linked software.
+* This is a **purely personal DIY project** inside your own villa. Community
+  management is not involved in, does not endorse, and does not support this
+  effort in any way - do not contact them about it. Support comes from neighbours
+  who have already done it, on a best-effort basis.
 * You are solely responsible for verifying that any change you make complies with
-  your local laws, electrical codes, building regulations, warranty terms, insurance
-  requirements, and the rules of your villa community's HOA / body corporate /
-  landlord before you start.
-* Each villa has its own dedicated VRF air-conditioning controller and unit - it is
-  **not** shared with neighbours - but other things (common-area wiring, shared
-  network/utility infrastructure, panels that might feed shared spaces, etc.) can
-  still affect other residents. Get sign-off from your HOA/community management
-  and, where relevant, your neighbours before changing anything that is not
-  exclusively yours.
-* Test changes carefully, keep the original TIS Control hardware and configuration
-  backed up/reversible wherever possible, and proceed at your own pace and risk.
+  your local laws, electrical codes, warranty terms, insurance requirements, and
+  any agreements that apply to your villa.
+* Everything you modify is your own villa's private equipment. The VRF
+  air-conditioning, switches, and sensors in each villa are dedicated to that
+  villa - nothing here touches a neighbour's systems or any shared infrastructure.
+* Test changes carefully, keep the original configuration backed up/reversible
+  wherever possible, and proceed at your own pace and risk.
 
 By using this documentation you accept that you do so entirely at your own risk.
 ====
 
-== Why this exists
+== What this is
 
-Our villa community has several villas that share the same underlying hardware
-layout, originally controlled by a proprietary panel system called *TIS Control*.
-One villa successfully swapped out that "brain" for *Home Assistant*, using:
+Our villas came with built-in, proprietary home automation - closed systems you
+can't extend, inspect, or get parts for without depending on a single vendor. One
+villa in Phase 4 has successfully replaced its *TIS Control* system with
+*Home Assistant*, keeping every existing switch and sensor in service.
 
-* *Zigbee* to bring the wiring, switches, and sensors that were already installed
-  onto a network Home Assistant can talk to
-* A small, community-written *custom integration*
-  (https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac]) to keep controlling
-  the villa's own *VRF air-conditioning* system (each villa has its own dedicated
-  VRF controller and unit) that TIS Control used to manage
-* Standard, free, open-source Home Assistant add-ons for everything else
+The key insight that makes this nearly free: **the motion sensors and TIS light
+switches already installed in our villas communicate over Zigbee** - an open
+standard. They don't need to be replaced or rewired; they just need a new
+coordinator to talk to. The only hardware you buy is a small computer and a
+Zigbee coordinator (see the bill of materials in the
+link:phases/phase-4/guide-technical.adoc[Technical Guide]).
 
-Nothing gets ripped out to make this work. The physical switches, sensors, and
-relays already sitting in the walls stay exactly where they are - only the system
-deciding what they do changes hands, from the closed TIS panel to Home Assistant.
-That's an important distinction from a full smart-home retrofit: this is closer to
-giving the existing hardware a new employer than buying it all over again.
+This repository is the central place to gather what each part of the community
+learns: guides, per-phase notes, and a growing library of real automations you
+can copy into your own setup.
 
-This repository documents that setup so other residents with similar hardware can
-repurpose their own installation the same way, understand the trade-offs, and
-support each other as a community - nobody is obligated to do this, and nobody
-should feel pressure to move faster than they're comfortable with.
+== New to Home Assistant?
 
-== Two guides, pick where to start
+Start with link:docs/home-assistant-intro.adoc[*What is Home Assistant?*] - a
+short, plain-language introduction for residents who have never heard of it:
+what it does, what the important words mean (integration, automation, add-on,
+dashboard), and where the official documentation lives.
+
+== The guides
 
 [cols="1,3", options="header"]
 |===
 | Guide | Who it's for
 
-| link:docs/guide-simple.adoc[Simple Guide]
+| link:phases/phase-4/guide-simple.adoc[Simple Guide]
 | Residents with no technical background who want to understand *what this is*,
-  *what changes for them*, and what to ask a technical neighbour or installer for
-  help with.
+  *what changes for them*, and what to ask a technical neighbour for help with.
 
-| link:docs/guide-technical.adoc[Technical Guide]
+| link:phases/phase-4/guide-technical.adoc[Technical Guide]
 | Residents comfortable with networking/Linux basics who want the full,
-  step-by-step technical build: hardware list, Zigbee2MQTT setup, the VRF AC
-  integration, and (optional) secure remote access.
+  step-by-step technical build: bill of materials, Zigbee2MQTT setup, the VRF AC
+  integration, secure remote access, and the roadmap.
 |===
+
+PDF copies of both guides, formatted for sharing on WhatsApp, are in the
+link:pdf/[`pdf/`] folder.
+
+== Your part of the community
+
+SSC is built in four phases, and the built-in automation hardware differs between
+them. Find your phase below - and if your phase's page is still a placeholder,
+you can be the neighbour who fills it in.
+
+[cols="1,2,2", options="header"]
+|===
+| Phase | Built-in automation | Status
+
+| link:phases/phase-1/README.adoc[Phase 1]
+| _Unknown - to be documented by a Phase 1 resident_
+| 🔍 Needs a contributor
+
+| link:phases/phase-2/README.adoc[Phase 2]
+| _Unknown - to be documented by a Phase 2 resident_
+| 🔍 Needs a contributor
+
+| link:phases/phase-3/README.adoc[Phase 3]
+| _Unknown - to be documented by a Phase 3 resident_
+| 🔍 Needs a contributor
+
+| link:phases/phase-4/README.adoc[Phase 4]
+| TIS Control (Zigbee switches & motion sensors, TIS VRF AC controller)
+| ✅ Working conversion documented
+|===
+
+== Automation library
+
+The link:automations/README.adoc[`automations/`] folder collects real automations
+and scripts from villas that have made the switch - copy them, adapt them, learn
+from them. They're organized as:
+
+* link:automations/common/[`automations/common/`] - useful in any villa,
+  regardless of phase
+* `automations/phase-N/` - specific to one phase's hardware (e.g.
+  link:automations/phase-4/[`phase-4/`] for TIS switch/sensor/VRF-AC setups)
+
+Made something useful? Add it - see the
+link:automations/README.adoc[contribution notes].
 
 == How it all fits together
 
 image::architecture-simple.svg[Simple architecture overview,800,,align="center"]
 
 The short version: a small computer (a Raspberry Pi) running Home Assistant becomes
-the new "brain" of the villa, replacing the TIS Control panel. It talks to the
-same lights, switches, and sensors that were already there - repurposed to speak
-Zigbee instead of the old proprietary bus - directly over a local Zigbee radio, and
-talks to the villa's own VRF air-conditioning system over the local network. None of this
-requires an internet connection to work day-to-day - internet access is only
-involved if you choose to enable optional remote control from your phone while away
-from home. See the link:docs/guide-technical.adoc#_architecture[technical guide's
-architecture section] for the full diagram and every component involved.
+the new "brain" of the villa, replacing the built-in control panel. The Zigbee
+switches and motion sensors already in your walls are re-paired to it - nothing is
+bought twice, nothing is thrown away - and the villa's own VRF air-conditioning is
+controlled over the local network. None of this requires an internet connection to
+work day-to-day; remote access from outside your home is optional and covered in
+the link:phases/phase-4/guide-technical.adoc#_remote_access[technical guide].
 
-== Getting help / community
+== Getting help
 
-This is a community-support effort, not a commercial product or a supported service.
+This is a DIY, neighbour-to-neighbour effort - there is no official support and
+community management is not involved.
 
-* Start with the two guides above.
-* If you get stuck, reach out to the neighbour(s) who've already done this rather
-  than experimenting alone on shared community systems.
-* If you find an error in these docs or improve on the setup, please contribute
-  fixes back (via a pull request, or by passing changes to whoever maintains this
-  repository) so the next neighbour benefits too.
+* Start with the two guides and your phase's page.
+* Ask the neighbour(s) who've already done the conversion before experimenting
+  alone - the WhatsApp group is the right place.
+* If you find an error in these docs or improve on the setup, contribute it back
+  (a pull request, or pass it to whoever maintains this repository) so the next
+  neighbour benefits.
+
+== Roadmap
+
+* **RS485 integration** - bringing the villas' RS485 bus into Home Assistant to
+  unlock the additional built-in motion sensors and the water- and
+  power-usage meters. Tracked in the
+  link:phases/phase-4/guide-technical.adoc#_roadmap[technical guide's roadmap section].
+* **Phase 1-3 documentation** - waiting on a resident of each phase to document
+  what their villas shipped with.
+* **Growing the automation library** - every villa that converts is a source of
+  new examples.
 
 == License / attribution
 

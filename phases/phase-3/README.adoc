@@ -1,0 +1,29 @@
+= Phase 3: To Be Documented
+:toc!:
+
+Nobody has documented Phase 3's built-in home automation hardware yet - this
+page is waiting for a Phase 3 resident to fill it in.
+
+== What we need from a Phase 3 neighbour
+
+If you live in Phase 3, you can kick this off with even partial answers:
+
+* What brand/system is the built-in control panel (photos of the panel and its
+  labels help enormously)?
+* What do the light switches look like, and is there a brand/model on them
+  (often inside the frame or on a sticker in the wall box - *do not open wall
+  boxes yourself; a photo of the front is already useful*)?
+* Are there motion sensors, and what do they look like?
+* How is the air-conditioning controlled - its own wall thermostat, or through
+  the main panel?
+
+Post findings in the WhatsApp group or contribute them here directly. Once we
+know what the hardware is, the community can work out whether the same
+zero-cost re-pairing approach used in link:../phase-4/README.adoc[Phase 4] applies.
+
+== In the meantime
+
+The link:../../docs/home-assistant-intro.adoc[Home Assistant introduction] and the
+link:../phase-4/guide-technical.adoc[Technical Guide] are still worth reading - the
+Raspberry Pi + Home Assistant core of the setup is identical for every phase;
+only the device-integration part differs.

@@ -1,0 +1,432 @@
+= SSC Technical Guide: TIS Control to Home Assistant
+:toc: macro
+:toclevels: 3
+:sectnums:
+:source-highlighter: rouge
+:experimental:
+:imagesdir: images
+
+Full technical reference for reproducing the Phase 4 conversion: bill of
+materials, software components, configuration, remote access, and the roadmap.
+Written for residents comfortable with basic networking/Linux concepts. For a
+plain-language overview, see the link:guide-simple.adoc[Simple Guide]; if
+Home Assistant itself is new to you, start with
+link:../../docs/home-assistant-intro.adoc[What is Home Assistant?].
+
+toc::[]
+
+[WARNING]
+.⚠️ WARNING: Electrical safety - please read first
+====
+Parts of this project involve wiring connected to *mains / line voltage electricity*.
+
+* Working with live electrical wiring can cause **serious injury, fire, or death**.
+* Any work inside a wall box, distribution board, relay panel, or anything touching
+  mains wiring *must* be performed, or at minimum inspected and signed off, by a
+  qualified electrician familiar with your local electrical code.
+* The standard conversion described here needs **no electrical work at all** -
+  the existing switches and sensors stay untouched in their wall boxes and are
+  re-paired over the air. If you ever find yourself about to open a wall box,
+  stop and call an electrician.
+====
+
+[IMPORTANT]
+.❗ IMPORTANT: Disclaimer - no warranty, use at your own risk
+====
+This documentation and the linked custom integration
+(https://github.com/linusali/hass-tis-vrf-ac[hass-tis-vrf-ac]) are provided *"as is"*
+as a community resource, with **no warranty of any kind** and **no guarantee of
+fitness for any particular purpose**. The author and contributors are **not liable**
+for any damage, injury, death, fire, data loss, loss of climate control, security
+incident, or other loss arising from using this material. This is a personal DIY
+project inside your own villa - community management is not involved and provides
+no support; you are responsible for complying with local law, electrical code, and
+any agreements that apply to your villa. Every system touched here (switches,
+sensors, VRF air-conditioning) is dedicated to your own villa and not shared with
+neighbours. All IP addresses, domains, usernames, and passwords shown in this
+guide are **placeholders** - replace them with your own values and never commit
+real credentials to a public repository.
+====
+
+[#_architecture]
+== Architecture
+
+image::architecture-technical.svg[Technical architecture diagram,900,,align="center"]
+
+Components:
+
+[cols="1,3", options="header"]
+|===
+| Component | Role
+
+| Raspberry Pi 5, running Home Assistant OS (HAOS)
+| Host for everything below. Runs Home Assistant Core plus add-ons in isolated
+  containers.
+
+| Home Assistant Core
+| Automations, dashboards, users/auth, and remote-access endpoint.
+
+| Mosquitto add-on
+| Local MQTT broker. Zigbee2MQTT publishes device state here; Home Assistant
+  subscribes to it via the official MQTT integration.
+
+| Zigbee2MQTT add-on
+| Talks to the Zigbee coordinator, exposes every paired Zigbee device over MQTT.
+
+| SMLIGHT SLZB-06M
+| Zigbee 3.0 coordinator. Unlike a plain USB dongle, it's network-attached
+  (Ethernet or Wi-Fi, with PoE support), so Zigbee2MQTT connects to it over TCP
+  instead of needing USB passthrough into the HAOS VM - simpler and more reliable
+  on a Raspberry Pi host.
+
+| Existing TIS Zigbee devices
+| The light switches and motion sensors TIS installed are native Zigbee devices.
+  They are re-paired from the TIS network to your own coordinator - no new
+  hardware, no rewiring, no cost.
+
+| `hass-tis-vrf-ac` custom integration
+| Community-written Home Assistant `climate` platform
+  (https://github.com/linusali/hass-tis-vrf-ac[source]) that talks HTTP directly to
+  the villa's own TIS VRF air-conditioning controller, so the original AC hardware
+  keeps working under Home Assistant instead of the TIS Control panel.
+
+| TIS VRF AC controller
+| Existing proprietary hardware, kept in place. Dedicated to this villa only - each
+  villa has its own controller and AC unit, not a system shared across the
+  community. Reachable on the villa's LAN over HTTP, optionally with HTTP Basic
+  Auth.
+
+| Remote access (Tailscale, or alternatives)
+| Optional secure path to reach Home Assistant from outside the villa - see
+  <<_remote_access>>.
+|===
+
+Everything except the optional remote-access path works with **no internet
+connection**.
+
+== Bill of materials
+
+The switches, motion sensors, and wiring that TIS Control used to drive are not
+on this list - they are already in your villa, they are already Zigbee, and they
+get re-paired rather than replaced. **The re-use is free.** What you buy is only
+the new brain and its radio:
+
+[cols="2,3,1", options="header"]
+|===
+| Item | Notes | Approx. role
+
+| Raspberry Pi 5, **8 GB RAM** (64-bit)
+| The HAOS host. The 8 GB model gives comfortable headroom for add-ons; use the
+  official 27 W USB-C power supply.
+| The brain
+
+| microSD card, **64 GB or larger**
+| A2-rated card from a reputable brand. (An SSD via USB is a worthwhile future
+  upgrade for longevity, but a good SD card is fine to start.)
+| Storage
+
+| SMLIGHT **SLZB-06M**
+| Zigbee 3.0 coordinator with Ethernet/Wi-Fi/USB and PoE options. Connect it to
+  your LAN via Ethernet rather than USB - it runs independently of the Pi.
+| Zigbee radio
+
+| Ethernet cable(s)
+| For the Pi and (recommended) the SLZB-06M. Wired beats Wi-Fi for reliability.
+| Network
+|===
+
+That's the whole list - roughly the cost of a mid-range phone accessory haul,
+with no recurring fees.
+
+== Installing Home Assistant OS on the Raspberry Pi 5
+
+. Download the official Raspberry Pi 5 HAOS image from the
+  https://www.home-assistant.io/installation/raspberrypi[Home Assistant installation
+  page].
+. Flash it to your SD card using
+  https://www.home-assistant.io/common-tasks/os/#installing-home-assistant-operating-system[Raspberry
+  Pi Imager] or `balenaEtcher`.
+. Boot the Pi with it connected to your router via Ethernet.
+. Browse to `\http://homeassistant.local:8123` from a device on the same network and
+  complete the onboarding wizard (create your admin account - use a strong,
+  unique password).
+. Apply any pending HAOS/Core updates from *Settings -> System -> Updates* before
+  continuing.
+
+== Setting up Zigbee2MQTT with the SLZB-06M
+
+. Connect the SLZB-06M to your network (Ethernet recommended) and give it a fixed
+  IP, either via a DHCP reservation on your router or a static IP on the device
+  itself. This guide uses `192.0.2.50` as a placeholder - use your own address.
+. Install the *Mosquitto broker* add-on from *Settings -> Add-ons -> Add-on Store*,
+  start it, and create a dedicated MQTT user for Zigbee2MQTT (do not reuse your HA
+  admin account).
+. Install the *Zigbee2MQTT* add-on from the add-on store.
+. Configure the add-on (via its *Configuration* tab, or `configuration.yaml` inside
+  the add-on) to point at the coordinator over the network rather than USB:
++
+[source,yaml]
+----
+serial:
+  port: tcp://192.0.2.50:6638   # <-- replace with your SLZB-06M's own IP
+  adapter: ezsp
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://core-mosquitto:1883
+  user: <MQTT_USERNAME>
+  password: <MQTT_PASSWORD_REDACTED>
+----
+. Start the add-on and open its web UI (via the *Zigbee2MQTT* panel in the HA
+  sidebar) to confirm the coordinator connects.
+. In Home Assistant, add the *MQTT* integration (*Settings -> Devices & Services ->
+  Add Integration -> MQTT*) pointing at the same broker - Zigbee2MQTT devices will
+  then appear automatically via MQTT discovery.
+
+== Re-pairing the existing TIS switches and motion sensors
+
+This is the heart of the zero-cost story: the TIS wall switches and motion
+sensors are standard Zigbee devices currently paired to the TIS network. Moving
+them to yours is a software operation done from the room, not the wall box.
+
+. In the Zigbee2MQTT web UI, enable *Permit join*.
+. Put the device into pairing mode. The exact button-press or power-cycle
+  sequence varies by device model - ask in the WhatsApp group; the neighbours
+  who've converted already know the sequence for each TIS device type in our
+  villas, and this section will grow as each model is documented.
+. Watch the Zigbee2MQTT log: the device joins, gets interviewed, and appears
+  with its capabilities.
+. Rename it immediately with a clear, consistent scheme (e.g.
+  `living_room_ceiling_light`, `hallway_motion`) - this pays off enormously when
+  writing automations later.
+. Repeat, one room at a time. There's no rush, and devices still paired to TIS
+  keep working under TIS until you move them.
+
+TIP: Keep the coordinator away from Wi-Fi routers/USB 3.0 devices where possible;
+2.4 GHz interference is the most common cause of a flaky Zigbee network.
+
+== Controlling the villa's VRF air-conditioning
+
+The https://github.com/linusali/hass-tis-vrf-ac[`hass-tis-vrf-ac`] integration is a
+custom `climate` platform that talks HTTP directly to the TIS VRF AC controller that
+was already on your network, so the original AC hardware keeps working under Home
+Assistant. Each villa has its own controller and AC unit - this touches nothing
+outside your own home.
+
+. Confirm the TIS VRF AC controller's IP address on your LAN (check your router's
+  client list, or the original TIS Control installation documentation).
+. Install the integration, following the
+  https://github.com/linusali/hass-tis-vrf-ac[repository's own `INSTALLATION.md`] -
+  either via HACS (custom repository) or by copying `custom_components/ac_vrf` into
+  your HAOS `config/custom_components` folder (accessible via the *Samba* or
+  *File editor* add-on, or SSH).
+. Restart Home Assistant, then add the platform to your configuration. For example,
+  in `configuration.yaml`:
++
+[source,yaml]
+----
+climate:
+  - platform: ac_vrf
+    host: 192.0.2.251                 # <-- replace with your AC controller's IP
+    username: <AC_CONTROLLER_USERNAME>  # optional, only if your controller requires auth
+    password: <AC_CONTROLLER_PASSWORD_REDACTED>  # optional, can be blank if unset
+
+logger:
+  default: info
+  logs:
+    custom_components.ac_vrf: debug     # helpful while getting this working, remove after
+----
+. Restart Home Assistant again and confirm a new climate entity appears for each AC
+  zone/unit. Test basic on/off and temperature-setpoint changes before wiring it
+  into any automations.
+. Check the repository's own
+  https://github.com/linusali/hass-tis-vrf-ac/blob/main/TROUBLESHOOTING.md[`TROUBLESHOOTING.md`]
+  and the included connection-test script if the controller doesn't respond -
+  it's usually an IP, firewall, or auth mismatch rather than a Home Assistant
+  problem.
+
+[#_remote_access]
+== Remote access
+
+Controlling your villa from outside your home Wi-Fi is genuinely useful (AC on
+before you arrive, checking things while travelling), so this section is part of
+the standard build rather than an afterthought. There are two good free
+approaches; **the VPN approach is recommended** because it exposes nothing to the
+internet.
+
+[cols="1,2,2", options="header"]
+|===
+| | VPN mesh (recommended) | DuckDNS + Let's Encrypt
+
+| How it works
+| Your phone and the Pi join a private encrypted network (WireGuard-based);
+  you reach HA as if you were at home.
+| Your router forwards port 443 to HA, protected by TLS and your HA login.
+
+| Exposure to internet
+| **None** - no open ports.
+| One HTTPS port open to the whole internet.
+
+| Setup difficulty
+| Easy - install two apps, log in.
+| Moderate - DNS, certificates, router port-forwarding.
+
+| Works behind CG-NAT
+| Yes.
+| No (needs a real public IP).
+
+| Cost
+| Free tier is ample for a household.
+| Free.
+|===
+
+=== Option A (recommended): Tailscale
+
+https://tailscale.com[Tailscale] is a zero-configuration WireGuard mesh - the
+easiest route by far.
+
+. Install the *Tailscale* add-on from the Home Assistant add-on store and start
+  it.
+. Open the add-on's Web UI and log in with a free Tailscale account (Google/
+  Microsoft/GitHub sign-in supported).
+. Install the Tailscale app on your phone and log in to the same account.
+. That's it - from anywhere, open `\http://<the-pi's-tailscale-name>:8123` (or its
+  `100.x.y.z` Tailscale IP) in the HA companion app.
+
+NOTE: https://netbird.io[NetBird] is an equally good open-source alternative with
+a similar flow (add-on/agent on the Pi, app on the phone, same account on both).
+If you prefer fully self-hosted infrastructure or hit a Tailscale limitation, use
+it the same way.
+
+=== Option B: DuckDNS + Let's Encrypt (direct exposure)
+
+The classic free path documented by Home Assistant, for those who want a plain
+`https://` URL that works from any browser without a VPN app.
+
+[CAUTION]
+====
+This forwards a port from the internet to your Pi. Only choose it if you
+understand the trade-off, and follow the hardening steps below.
+====
+
+. Register a free hostname at https://www.duckdns.org[duckdns.org], e.g.
+  `<your-subdomain>.duckdns.org`, and note the DuckDNS token (treat it like a
+  password).
+. Install the official *DuckDNS* add-on and configure it:
++
+[source,yaml]
+----
+lets_encrypt:
+  accept_terms: true
+  certfile: fullchain.pem
+  keyfile: privkey.pem
+token: <DUCKDNS_TOKEN_REDACTED>
+domains:
+  - <your-subdomain>.duckdns.org
+aliases: []
+----
+. Point Home Assistant at the certificate in `configuration.yaml`:
++
+[source,yaml]
+----
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+----
+. Forward external port `443` to the Pi's port `8123` on your router.
+. Set *Settings -> System -> Network -> Home Assistant URL* to
+  `\https://<your-subdomain>.duckdns.org`, restart, and test from mobile data.
+
+Hardening (mandatory if you choose Option B):
+
+* Strong, unique admin password and
+  https://www.home-assistant.io/docs/authentication/two-factor-auth/[two-factor
+  authentication] on every account.
+* A separate non-admin account for day-to-day household use.
+* Enable the failed-login IP ban threshold in the `http:` configuration.
+* Keep HAOS, Core, and add-ons updated.
+* If you later switch to Tailscale, remove the port forward and disable the
+  DuckDNS add-on.
+
+== Backups and updates
+
+* Enable Home Assistant's built-in
+  https://www.home-assistant.io/common-tasks/general/#back-up-and-restore-your-configuration[automatic
+  backups] (*Settings -> System -> Backups*) before making significant changes, and
+  before every major HAOS/Core update.
+* Store at least one backup copy off the Pi itself (network share, cloud storage,
+  USB drive) so an SD-card failure doesn't take your only backup with it.
+* Before re-pairing devices in bulk, take a fresh backup - the Zigbee network
+  state lives in Zigbee2MQTT's data and is included in a full HA backup.
+
+== Automations
+
+Once devices are paired, the fun starts. Rather than repeating examples here,
+the community keeps a living library in the repository:
+
+* link:../../automations/common/[`automations/common/`] - works in any villa
+* link:../../automations/phase-4/[`automations/phase-4/`] - specific to the TIS
+  switch/motion-sensor/VRF-AC hardware in Phase 4
+
+Copy, adapt, and contribute back - see
+link:../../automations/README.adoc[the contribution notes].
+
+== Troubleshooting
+
+[cols="1,2", options="header"]
+|===
+| Symptom | Likely cause / where to look
+
+| Zigbee2MQTT add-on won't connect to the coordinator
+| Wrong IP/port for the SLZB-06M, or it's not reachable on the network. Check its
+  own web UI (reachable directly by browsing to its IP) and the add-on logs.
+
+| A TIS device won't pair
+| It may still be joined to the TIS network - it must be removed/reset first
+  (pairing-mode sequence varies by model; ask in the WhatsApp group). Also check
+  *Permit join* is actually enabled and the device is within range.
+
+| Zigbee devices randomly drop offline
+| Usually 2.4 GHz interference (Wi-Fi routers, USB 3.0 cables/hubs) or the
+  coordinator being too far from devices. Try relocating the coordinator.
+
+| `ac_vrf` climate entity doesn't appear
+| Check `Settings -> System -> Logs` for `custom_components.ac_vrf` errors, verify
+  the controller's IP is correct and reachable (`ping`), and see the integration's
+  own
+  https://github.com/linusali/hass-tis-vrf-ac/blob/main/TROUBLESHOOTING.md[TROUBLESHOOTING.md].
+
+| Can't reach HA remotely via Tailscale
+| Confirm both the add-on and the phone app are logged in to the *same* Tailscale
+  account, and the add-on shows a `100.x.y.z` address in its log.
+
+| Can't reach HA remotely via DuckDNS
+| Confirm the port forward is active (online port-checker from outside), the
+  DuckDNS add-on log shows successful cert issuance, and your ISP isn't using
+  carrier-grade NAT (which blocks inbound port forwarding - use Tailscale
+  instead in that case).
+|===
+
+[#_roadmap]
+== Roadmap: RS485 sensor bus integration
+
+The villas carry an *RS485 bus* connecting additional built-in hardware that the
+TIS panel used but the current conversion doesn't reach yet:
+
+* additional **motion sensors** beyond the Zigbee ones
+* **water-usage** metering
+* **power-usage** metering
+
+The plan is to bridge this bus into Home Assistant (typically via an RS485-to-
+Ethernet/USB gateway plus a Modbus or custom integration, depending on what
+protocol analysis reveals). This is under investigation in the villa that did the
+first conversion - findings, wiring notes, and configuration will be added to
+this guide and the automation library as they solidify. If you have RS485 or
+protocol-reversing experience, this is the most valuable place to contribute.
+
+== Contributing back
+
+If you improve on this setup - a clearer config, a documented pairing sequence
+for a TIS device model, an RS485 discovery, an automation worth sharing - please
+contribute it back (pull request, or pass it to whoever maintains this
+repository) so the next neighbour benefits too.

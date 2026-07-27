@@ -1,0 +1,8 @@
+= Common automations
+:toc!:
+
+Automations that work in any SSC villa, regardless of phase.
+
+The first real examples are on their way - the Phase 4 villa that completed the
+conversion is preparing its automations for sharing. See the
+link:../README.adoc[library README] for the contribution format.

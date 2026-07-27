@@ -1,0 +1,163 @@
+= SSC Simple Guide: What We Did and What It Means For You
+:toc: macro
+:toclevels: 2
+:imagesdir: images
+
+This guide explains, in plain language, what was changed in one Phase 4 villa of
+our SSC community, why, and what it would mean for you if you wanted the same
+thing. It assumes no technical background. For step-by-step technical
+instructions, see the link:guide-technical.adoc[Technical Guide], or ask a
+technically-minded neighbour to walk through it with you. If you've never heard
+of Home Assistant at all, read
+link:../../docs/home-assistant-intro.adoc[What is Home Assistant?] first.
+
+toc::[]
+
+[WARNING]
+.⚠️ WARNING: Electrical safety - please read first
+====
+Some of this involves wiring connected to *mains / line voltage electricity* (the
+same power that can seriously hurt or kill someone if handled incorrectly).
+
+* **Never** open a wall switch box, distribution board, or wiring panel yourself
+  unless you are a qualified electrician.
+* Any physical/electrical work must be done by a **licensed electrician**.
+* The parts of this project that are safe for a non-electrician to do yourself are
+  limited to: plugging in a small computer, connecting it to your home network, and
+  using an app or web page. Everything involving wiring behind the walls is
+  electrician territory.
+====
+
+[IMPORTANT]
+.❗ IMPORTANT: Disclaimer
+====
+This guide is shared by a neighbour, for neighbours, as a community learning
+resource - it is **not** professional advice, and it comes with **no warranty**.
+Neither the author nor other contributors are responsible for any injury, death,
+fire, property damage, or other loss that may result from following it. This is a
+personal DIY project inside your own villa - community management is not involved
+and should not be contacted about it; help comes from neighbours who have already
+done it. Any electrical work must be done by a qualified electrician. Proceed at
+your own risk, and don't feel any pressure to do this yourself if you're not
+comfortable.
+====
+
+== What is TIS Control, and what did we replace?
+
+Phase 4 villas in SSC, and possibly others, were built with a proprietary control
+panel system called *TIS Control*. It's a closed system from one manufacturer -
+it works, but you can't see how it works, can't easily extend it, and depend
+entirely on that one company for support and spare parts.
+
+In one villa, we swapped out the "brain" of that system for *Home Assistant* - a
+free, open-source home automation platform used by millions of people worldwide.
+Nothing gets torn out to do this: the wiring behind your walls, your light
+switches, your motion sensors, and your air-conditioning are all repurposed
+rather than replaced. They keep doing exactly what they've always done - only
+*what's in charge* of them changes.
+
+== The best part: your devices already speak the right language
+
+Here's the pleasant surprise that makes this project nearly free. The light
+switches and motion sensors TIS installed in our villas communicate using
+*Zigbee* - an open, industry-standard wireless language that Home Assistant
+speaks fluently. TIS used it privately; we simply introduce those same devices to
+a new brain.
+
+So there is **no need to buy new switches, new sensors, or hire anyone to rewire
+anything**. The devices in your walls are simply "re-paired" - told to report to
+your new system instead of the old TIS panel. The only things you actually buy
+are the small computer and one antenna-like device, listed below.
+
+== What stays the same, what changes
+
+* Your light switches on the wall still work as switches, exactly as before.
+* Your motion sensors keep sensing, exactly as before.
+* Your air-conditioning still works from its usual controls.
+* You gain the ability to also control everything from a phone app, automate
+  things (e.g. "turn off all lights at midnight", "hallway light on when motion
+  is detected at night"), and combine devices in ways the closed TIS system
+  didn't allow.
+* You are no longer dependent on one manufacturer for support, updates, or spare
+  parts - the software is free, open-source, and maintained by a large community.
+
+== The big picture
+
+image::architecture-simple.svg[How the pieces fit together,700,,align="center"]
+
+In plain words:
+
+* A small computer (about the size of a deck of cards, called a *Raspberry Pi*)
+  becomes the new "brain" of your villa, replacing the old TIS Control panel.
+* That brain talks wirelessly, over *Zigbee*, to the same lights, switches, and
+  motion sensors you already have - re-paired to report to Home Assistant
+  instead of the old TIS panel.
+* It also talks over your home network to your villa's own air-conditioning
+  system (each villa has its own dedicated AC controller and unit - it isn't
+  shared with neighbours), so you keep controlling the AC the same way you
+  always did.
+* None of this needs the internet to work day-to-day inside your home. Checking
+  in on your villa while you're away is also possible - your technical
+  neighbour can set that up for you; it's covered in the technical guide.
+
+== What you would need (shopping list, in plain terms)
+
+This is the complete list - notice there are no switches or sensors on it,
+because yours are being reused.
+
+[cols="1,2", options="header"]
+|===
+| Item | What it's for
+
+| Raspberry Pi 5 (the 8 GB memory version)
+| The small computer that runs Home Assistant - this becomes the new "brain".
+
+| A memory card of 64 GB or more, and the official power supply
+| Storage and power for the small computer.
+
+| SMLIGHT SLZB-06M (a small Zigbee antenna box)
+| Lets the brain talk wirelessly to the switches and sensors already in your
+  walls.
+
+| A network cable
+| Connects the small computer to your home internet router.
+|===
+
+Exact details and where things plug in are in the
+link:guide-technical.adoc[Technical Guide].
+
+== How to get started, at a high level
+
+. Read this guide fully, and skim the link:guide-technical.adoc[Technical Guide]
+  so you know roughly what's involved.
+. Decide whether you're doing this yourself, with a technical neighbour's help,
+  or learning alongside them - this is a DIY project, so neighbours are the
+  support network.
+. Get the three or four items from the shopping list above.
+. Follow the link:guide-technical.adoc[Technical Guide] to install and configure
+  the software, or have your technical neighbour do it with you
+  watching/learning.
+. Re-pair your devices one room at a time - there's no need to convert the whole
+  villa in one day.
+. If a step ever seems to involve opening a wall box or touching wiring, stop -
+  that's a job for a qualified electrician, not a weekend project.
+
+== Getting help
+
+This is neighbour-to-neighbour support, not a paid service, and community
+management is not part of it.
+
+* Ask in the community WhatsApp group - the neighbours who've already converted
+  their villas are the best starting point.
+* Take it step by step - you don't have to convert everything at once, and the
+  old TIS panel isn't damaged by any of this.
+* Once you're up and running, have a look at the
+  link:../../automations/README.adoc[automation library] for ready-made ideas other
+  villas are using - and share yours back.
+
+[CAUTION]
+====
+Reminder: anything involving live electrical wiring should be done by a qualified
+electrician. This guide is about the software and devices, not about giving anyone
+license to do their own electrical work.
+====

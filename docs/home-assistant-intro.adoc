@@ -1,0 +1,101 @@
+= What is Home Assistant?
+:toc: macro
+:toclevels: 2
+
+A short introduction for SSC residents who've never used - or heard of -
+Home Assistant. Five minutes here will make the
+link:../phases/phase-4/guide-simple.adoc[Simple Guide] and link:../phases/phase-4/guide-technical.adoc[Technical
+Guide] much easier to follow.
+
+toc::[]
+
+== In one paragraph
+
+https://www.home-assistant.io[*Home Assistant*] is a free, open-source program
+that runs on a small computer in your home and acts as the central brain for
+everything "smart" in it - lights, switches, sensors, air-conditioning,
+media players, cameras, and thousands of other device types. It is developed in
+the open by one of the largest open-source communities in the world, works
+entirely on your local network (your data stays in your house), and is
+controlled through a web page or a polished phone app.
+
+== Why people choose it
+
+* **It's free.** The software costs nothing, forever. You only buy hardware.
+* **It's local and private.** Unlike cloud-based smart home products, it keeps
+  working when the internet is down, and your home's data isn't sent to anyone's
+  servers.
+* **It speaks everything.** Over https://www.home-assistant.io/integrations/[3,000
+  integrations] connect it to devices and services from virtually every
+  manufacturer - including, via this community's work, the TIS hardware in our
+  villas.
+* **It's yours.** No vendor can discontinue it, paywall a feature you rely on, or
+  end support for your hardware.
+
+== The words you'll keep seeing
+
+[cols="1,3", options="header"]
+|===
+| Term | What it means
+
+| *Integration*
+| A connector that teaches Home Assistant to talk to a particular brand or type
+  of device - like a driver. Example: the `hass-tis-vrf-ac` integration connects
+  it to our villas' air-conditioning.
+
+| *Entity*
+| One controllable or observable thing: a light, a motion sensor, a temperature
+  reading, an AC unit. Everything in Home Assistant is an entity.
+
+| *Automation*
+| A rule: _when_ something happens (motion detected), _if_ conditions are met
+  (it's after sunset), _then_ do something (turn on the hallway light). You
+  build these with a visual editor - no programming needed.
+
+| *Script*
+| A reusable sequence of actions you can trigger from anywhere - like a "movie
+  night" button that dims lights and sets the AC.
+
+| *Dashboard*
+| The screen you see in the app or browser - fully customizable panels of
+  buttons, graphs, and status displays for your home.
+
+| *Add-on*
+| An extra program running alongside Home Assistant on the same computer,
+  installed with one click - e.g. Zigbee2MQTT (Zigbee radio management) or
+  Tailscale (remote access).
+
+| *Zigbee*
+| An open wireless standard that battery-friendly smart devices use to talk.
+  The switches and motion sensors already in our villas speak it - which is why
+  we can reuse them.
+
+| *HAOS (Home Assistant OS)*
+| The ready-made operating system image you flash onto the Raspberry Pi - it
+  boots straight into Home Assistant with no Linux knowledge required.
+|===
+
+== What it looks like day to day
+
+You open the app (or a browser) and see your home: which lights are on, the
+temperature in each room, whether the AC is running. You tap to control
+anything. Behind the scenes, your automations quietly do their jobs - lights
+that follow motion at night, AC that switches off when nobody is home, a
+notification if a water sensor gets wet. Guests and family don't need to learn
+anything: the wall switches still work exactly as wall switches always have.
+
+== Where to learn more
+
+* https://www.home-assistant.io/getting-started/[Official Getting Started guide]
+  - the canonical walkthrough.
+* https://www.home-assistant.io/docs/[Official documentation] - reference for
+  every feature.
+* https://community.home-assistant.io[Community forum] - enormous, friendly, and
+  searchable; almost every question has been asked before.
+* https://www.youtube.com/results?search_query=home+assistant+beginner[YouTube]
+  - countless beginner walkthroughs if you prefer watching to reading.
+* And of course: the SSC WhatsApp group, where neighbours who've already made
+  the switch can answer questions in the context of *our* villas.
+
+Ready? Head back to the link:../phases/phase-4/guide-simple.adoc[Simple Guide] to see what the
+conversion involves.

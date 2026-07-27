@@ -1,58 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Helvetica, Arial, sans-serif">
-  <rect x="0" y="0" width="900" height="520" fill="#ffffff"/>
-
-  <!-- Title -->
-  <text x="450" y="35" font-size="22" font-weight="bold" text-anchor="middle" fill="#1a1a1a">How it fits together (simple view)</text>
-
-  <!-- Phone -->
-  <rect x="40" y="90" width="150" height="80" rx="10" fill="#eef5ff" stroke="#2563eb" stroke-width="2"/>
-  <text x="115" y="125" font-size="15" text-anchor="middle" fill="#1a1a1a">Your phone</text>
-  <text x="115" y="145" font-size="15" text-anchor="middle" fill="#1a1a1a">(HA app)</text>
-
-  <!-- Internet cloud -->
-  <ellipse cx="330" cy="130" rx="90" ry="45" fill="#f5f5f5" stroke="#888" stroke-width="2"/>
-  <text x="330" y="135" font-size="15" text-anchor="middle" fill="#1a1a1a">Internet</text>
-  <text x="330" y="190" font-size="12" text-anchor="middle" fill="#666">(only if you turn on</text>
-  <text x="330" y="205" font-size="12" text-anchor="middle" fill="#666">remote access - optional)</text>
-
-  <!-- Home Assistant Brain box -->
-  <rect x="470" y="250" width="360" height="140" rx="12" fill="#eafbea" stroke="#16a34a" stroke-width="3"/>
-  <text x="650" y="280" font-size="18" font-weight="bold" text-anchor="middle" fill="#1a1a1a">The "Brain"</text>
-  <text x="650" y="302" font-size="14" text-anchor="middle" fill="#1a1a1a">Home Assistant</text>
-  <text x="650" y="322" font-size="13" text-anchor="middle" fill="#444">running on a small computer</text>
-  <text x="650" y="340" font-size="13" text-anchor="middle" fill="#444">(Raspberry Pi) in your unit</text>
-  <text x="650" y="365" font-size="12" text-anchor="middle" fill="#888">replaces the old TIS Control panel</text>
-
-  <!-- Devices -->
-  <rect x="500" y="430" width="90" height="60" rx="8" fill="#fff7e6" stroke="#d97706" stroke-width="2"/>
-  <text x="545" y="465" font-size="13" text-anchor="middle" fill="#1a1a1a">Lights</text>
-
-  <rect x="605" y="430" width="90" height="60" rx="8" fill="#fff7e6" stroke="#d97706" stroke-width="2"/>
-  <text x="650" y="458" font-size="13" text-anchor="middle" fill="#1a1a1a">Switches /</text>
-  <text x="650" y="474" font-size="13" text-anchor="middle" fill="#1a1a1a">Curtains</text>
-
-  <rect x="710" y="430" width="90" height="60" rx="8" fill="#fff7e6" stroke="#d97706" stroke-width="2"/>
-  <text x="755" y="458" font-size="13" text-anchor="middle" fill="#1a1a1a">Air</text>
-  <text x="755" y="474" font-size="13" text-anchor="middle" fill="#1a1a1a">Conditioning</text>
-
-  <!-- Old panel crossed out, for context -->
-  <rect x="40" y="250" width="160" height="90" rx="10" fill="#fdeaea" stroke="#b91c1c" stroke-width="2" stroke-dasharray="6,4"/>
-  <text x="120" y="280" font-size="14" text-anchor="middle" fill="#7a1a1a">Old TIS Control</text>
-  <text x="120" y="298" font-size="14" text-anchor="middle" fill="#7a1a1a">panel</text>
-  <text x="120" y="320" font-size="12" text-anchor="middle" fill="#7a1a1a">(replaced)</text>
-
-  <!-- Arrows -->
-  <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#555"/>
-    </marker>
-  </defs>
-
-  <line x1="190" y1="130" x2="240" y2="130" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
-  <line x1="420" y1="150" x2="500" y2="245" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
-  <line x1="650" y1="390" x2="650" y2="425" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
-  <line x1="620" y1="415" x2="555" y2="428" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
-  <line x1="690" y1="415" x2="745" y2="428" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
-
-  <text x="900" y="515" font-size="1" fill="#fff">.</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 640" font-family='system-ui,-apple-system,Segoe UI,sans-serif'><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,255,255,0.28)"/></marker></defs><rect x="0" y="0" width="1040" height="640" fill="#0d0d0d"/><rect x="40" y="30" width="460" height="170" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+<circle cx="70" cy="60" r="15" fill="#3987e5" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="70" cy="60" r="15" fill="none" stroke="#3987e5" stroke-width="1.3"/>
+<text x="70" y="65" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">🏠</text>
+<text x="96" y="56" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">Your Villa</text>
+<rect x="64" y="84" width="412" height="94" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="80" y="108" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🧠</text>
+<text x="106" y="108" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Home Assistant</text>
+<text x="80" y="126" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Raspberry Pi 5 - the new brain, in place of the old TIS</text>
+<text x="80" y="141" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Control panel.</text>
+<rect x="540" y="30" width="460" height="170" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-dasharray="7,6"/>
+<circle cx="570" cy="60" r="15" fill="#898781" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="570" cy="60" r="15" fill="none" stroke="#898781" stroke-width="1.3"/>
+<text x="570" y="65" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">🌐</text>
+<text x="596" y="56" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">Control from your phone</text>
+<rect x="906.8" y="45" width="73.2" height="24" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+<text x="943.4" y="61" font-size="10" fill="#c3c2b7" font-weight="600" text-anchor="middle" letter-spacing="0.5">OPTIONAL</text>
+<rect x="564" y="84" width="190" height="94" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="580" y="108" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">☁️</text>
+<text x="606" y="108" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Internet</text>
+<text x="580" y="126" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Only used if you turn</text>
+<text x="580" y="141" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">this on.</text>
+<rect x="786" y="84" width="190" height="94" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="802" y="108" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">📱</text>
+<text x="828" y="108" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Phone app</text>
+<text x="802" y="126" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">See and control your home</text>
+<text x="802" y="141" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">remotely.</text>
+<path d="M754,131 C754,131.0 786,131.0 786,131" fill="none" stroke="#5a5a56" stroke-width="1.6" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+<path d="M476,131 L564,131" fill="none" stroke="#5a5a56" stroke-width="1.6" stroke-dasharray="5,5" marker-end="url(#arrow)"/>
+<text x="520" y="122" font-size="10" fill="#898781" font-weight="400" text-anchor="middle">optional</text>
+<rect x="40" y="250" width="960" height="220" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+<circle cx="70" cy="280" r="15" fill="#199e70" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="70" cy="280" r="15" fill="none" stroke="#199e70" stroke-width="1.3"/>
+<text x="70" y="285" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">🔌</text>
+<text x="96" y="276" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">What it controls</text>
+<text x="96" y="293" font-size="11" fill="#898781" font-weight="400" text-anchor="start">repurposed - nothing here gets thrown away</text>
+<rect x="64" y="320" width="288" height="128" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="80" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">💡</text>
+<text x="106" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Lights &amp; switches</text>
+<text x="80" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">The switches already on your walls -</text>
+<text x="80" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">now reporting over Zigbee instead of TIS.</text>
+<rect x="376" y="320" width="288" height="128" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="392" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🌡️</text>
+<text x="418" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Sensors</text>
+<text x="392" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Your existing sensors, repurposed</text>
+<text x="392" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">the same way.</text>
+<rect x="688" y="320" width="288" height="128" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="704" y="344" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">❄️</text>
+<text x="730" y="344" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Air conditioning</text>
+<text x="704" y="362" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Your villa&#x27;s own AC system -</text>
+<text x="704" y="379" font-size="10.5" fill="#898781" font-weight="400" text-anchor="start">private to you, not shared with neighbours.</text>
+<path d="M270,178 C270,263.2 208.0,263.2 208.0,320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M270,178 C270,263.2 520.0,263.2 520.0,320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<path d="M270,178 C270,263.2 832.0,263.2 832.0,320" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="520" y="610" font-size="12" fill="#898781" font-weight="400" text-anchor="middle">Nothing here gets replaced - your existing switches, sensors, and AC are put to work under a new brain.</text></svg>

@@ -1,105 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" font-family="Helvetica, Arial, sans-serif">
-  <rect x="0" y="0" width="1000" height="800" fill="#ffffff"/>
-
-  <text x="500" y="32" font-size="22" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Architecture (technical view)</text>
-
-  <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#444"/>
-    </marker>
-  </defs>
-
-  <!-- Internet cloud -->
-  <ellipse cx="150" cy="90" rx="95" ry="42" fill="#f5f5f5" stroke="#888" stroke-width="2"/>
-  <text x="150" y="85" font-size="14" text-anchor="middle" fill="#1a1a1a">Internet</text>
-  <text x="150" y="102" font-size="11" text-anchor="middle" fill="#666">HA companion app /</text>
-  <text x="150" y="115" font-size="11" text-anchor="middle" fill="#666">browser, from outside home</text>
-
-  <!-- DuckDNS -->
-  <rect x="330" y="55" width="200" height="70" rx="8" fill="#f3e8ff" stroke="#7e22ce" stroke-width="2"/>
-  <text x="430" y="80" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">DuckDNS</text>
-  <text x="430" y="98" font-size="11" text-anchor="middle" fill="#444">free dynamic DNS</text>
-  <text x="430" y="113" font-size="11" text-anchor="middle" fill="#444">yourname.duckdns.org</text>
-
-  <!-- Router -->
-  <rect x="620" y="55" width="240" height="90" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
-  <text x="740" y="80" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Home Router / Firewall</text>
-  <text x="740" y="98" font-size="11" text-anchor="middle" fill="#444">Port forward: 443 -&gt; 8123</text>
-  <text x="740" y="113" font-size="11" text-anchor="middle" fill="#444">(HTTPS to RPi5 only)</text>
-  <text x="740" y="130" font-size="11" text-anchor="middle" fill="#b91c1c">only if remote access enabled</text>
-
-  <!-- LAN boundary box -->
-  <rect x="60" y="200" width="880" height="560" rx="14" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8,5"/>
-  <text x="90" y="222" font-size="13" fill="#64748b">Home LAN</text>
-
-  <!-- RPi5 HAOS box -->
-  <rect x="90" y="245" width="420" height="330" rx="10" fill="#eafbea" stroke="#16a34a" stroke-width="3"/>
-  <text x="300" y="270" font-size="15" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Raspberry Pi 5 - Home Assistant OS (HAOS)</text>
-
-  <rect x="115" y="285" width="370" height="55" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
-  <text x="300" y="308" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Home Assistant Core</text>
-  <text x="300" y="325" font-size="11" text-anchor="middle" fill="#555">automations, dashboards, users, SSL cert</text>
-
-  <rect x="115" y="350" width="175" height="55" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
-  <text x="202" y="373" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Mosquitto</text>
-  <text x="202" y="390" font-size="11" text-anchor="middle" fill="#555">MQTT broker (add-on)</text>
-
-  <rect x="300" y="350" width="185" height="55" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
-  <text x="392" y="373" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Zigbee2MQTT</text>
-  <text x="392" y="390" font-size="11" text-anchor="middle" fill="#555">add-on</text>
-
-  <rect x="115" y="415" width="370" height="60" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
-  <text x="300" y="437" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">hass-tis-vrf-ac (custom integration)</text>
-  <text x="300" y="453" font-size="11" text-anchor="middle" fill="#555">climate: platform ac_vrf -&gt; talks HTTP to</text>
-  <text x="300" y="467" font-size="11" text-anchor="middle" fill="#555">TIS VRF AC controller</text>
-
-  <rect x="115" y="485" width="370" height="70" rx="6" fill="#fffbea" stroke="#ca8a04" stroke-width="1.5"/>
-  <text x="300" y="507" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">DuckDNS + Let's Encrypt add-on</text>
-  <text x="300" y="524" font-size="11" text-anchor="middle" fill="#555">renews free TLS cert, updates DNS record</text>
-  <text x="300" y="540" font-size="11" text-anchor="middle" fill="#555">(only needed if remote access enabled)</text>
-
-  <!-- SLZB-06M -->
-  <rect x="560" y="245" width="200" height="90" rx="8" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
-  <text x="660" y="270" font-size="13" font-weight="bold" text-anchor="middle" fill="#1a1a1a">SMLIGHT SLZB-06M</text>
-  <text x="660" y="288" font-size="11" text-anchor="middle" fill="#444">Zigbee 3.0 coordinator</text>
-  <text x="660" y="303" font-size="11" text-anchor="middle" fill="#444">network-attached (Eth/Wi-Fi)</text>
-  <text x="660" y="318" font-size="11" text-anchor="middle" fill="#444">tcp://&lt;ip&gt;:6638</text>
-
-  <!-- Zigbee devices -->
-  <rect x="790" y="245" width="150" height="90" rx="8" fill="#fff7e6" stroke="#d97706" stroke-width="2"/>
-  <text x="865" y="268" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">Zigbee devices</text>
-  <text x="865" y="286" font-size="11" text-anchor="middle" fill="#444">lights, switches,</text>
-  <text x="865" y="301" font-size="11" text-anchor="middle" fill="#444">curtains, sensors</text>
-  <text x="865" y="316" font-size="11" text-anchor="middle" fill="#444">(per room)</text>
-
-  <!-- TIS VRF AC controller -->
-  <rect x="560" y="370" width="200" height="85" rx="8" fill="#fde8e8" stroke="#b91c1c" stroke-width="2"/>
-  <text x="660" y="393" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">TIS VRF AC Controller</text>
-  <text x="660" y="410" font-size="11" text-anchor="middle" fill="#444">LAN, HTTP (+ optional</text>
-  <text x="660" y="424" font-size="11" text-anchor="middle" fill="#444">basic-auth), fixed IP</text>
-  <text x="660" y="440" font-size="11" text-anchor="middle" fill="#444">proprietary hardware kept</text>
-
-  <!-- AC units -->
-  <rect x="790" y="370" width="150" height="85" rx="8" fill="#fde8e8" stroke="#b91c1c" stroke-width="2"/>
-  <text x="865" y="400" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">VRF Indoor</text>
-  <text x="865" y="418" font-size="12" font-weight="bold" text-anchor="middle" fill="#1a1a1a">AC Units</text>
-
-  <!-- legend note -->
-  <rect x="90" y="600" width="820" height="130" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
-  <text x="110" y="625" font-size="13" font-weight="bold" fill="#1a1a1a">Notes</text>
-  <text x="110" y="648" font-size="12" fill="#333">- Everything inside the dashed "Home LAN" box works fine with no internet connection at all.</text>
-  <text x="110" y="668" font-size="12" fill="#333">- The purple/blue remote-access path (DuckDNS, router, Let's Encrypt) is optional and only needed</text>
-  <text x="110" y="686" font-size="12" fill="#333">  if you want to control your home from outside your Wi-Fi.</text>
-  <text x="110" y="706" font-size="12" fill="#333">- Replace every IP address, domain and password shown here with your own values - none of the</text>
-  <text x="110" y="724" font-size="12" fill="#333">  values in this diagram are real.</text>
-
-  <!-- Arrows -->
-  <line x1="245" y1="90" x2="325" y2="90" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="530" y1="90" x2="615" y2="90" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="740" y1="145" x2="450" y2="245" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-
-  <line x1="485" y1="380" x2="555" y2="290" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="760" y1="290" x2="785" y2="290" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="485" y1="440" x2="555" y2="410" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="760" y1="410" x2="785" y2="410" stroke="#444" stroke-width="2" marker-end="url(#arr)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" font-family='system-ui,-apple-system,Segoe UI,sans-serif'><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="rgba(255,255,255,0.28)"/></marker></defs><rect x="0" y="0" width="1200" height="660" fill="#0d0d0d"/><rect x="40" y="30" width="1120" height="168" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+<circle cx="70" cy="60" r="15" fill="#3987e5" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="70" cy="60" r="15" fill="none" stroke="#3987e5" stroke-width="1.3"/>
+<text x="70" y="65" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">🏠</text>
+<text x="96" y="56" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">Villa LAN</text>
+<text x="96" y="73" font-size="11" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>example: 192.168.1.0/24 - replace with your own</text>
+<rect x="64" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="80" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>HAOS host</text>
+<text x="80" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🖥️</text>
+<text x="106" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Raspberry Pi 5</text>
+<text x="80" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Runs Home Assistant Core.</text>
+<rect x="282" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="298" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>add-on</text>
+<text x="298" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">📨</text>
+<text x="324" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Mosquitto</text>
+<text x="298" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Local MQTT broker.</text>
+<rect x="500" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="516" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>add-on</text>
+<text x="516" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🔗</text>
+<text x="542" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Zigbee2MQTT</text>
+<text x="516" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Bridges Zigbee to MQTT.</text>
+<rect x="718" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="734" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>integration</text>
+<text x="734" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🧩</text>
+<text x="760" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">hass-tis-vrf-ac</text>
+<text x="734" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">climate: ac_vrf platform.</text>
+<rect x="936" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="952" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>coordinator</text>
+<text x="952" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">📡</text>
+<text x="978" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">SLZB-06M</text>
+<text x="952" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Zigbee 3.0,</text>
+<text x="952" y="163" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">network-attached.</text>
+<rect x="40" y="228" width="660" height="176" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+<circle cx="70" cy="258" r="15" fill="#199e70" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="70" cy="258" r="15" fill="none" stroke="#199e70" stroke-width="1.3"/>
+<text x="70" y="263" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">🔌</text>
+<text x="96" y="254" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">Zigbee devices</text>
+<text x="96" y="271" font-size="11" fill="#898781" font-weight="400" text-anchor="start">repurposed hardware, not new switches</text>
+<rect x="64" y="288" width="138" height="100" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="80" y="312" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">💡</text>
+<text x="106" y="312" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Lights</text>
+<rect x="222" y="288" width="138" height="100" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="238" y="312" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🎚️</text>
+<text x="264" y="312" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Switches</text>
+<rect x="380" y="288" width="138" height="100" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="396" y="312" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🌡️</text>
+<text x="422" y="312" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Sensors</text>
+<rect x="538" y="288" width="138" height="100" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="554" y="312" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🪟</text>
+<text x="580" y="312" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Curtain motors</text>
+<rect x="740" y="228" width="420" height="176" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+<circle cx="770" cy="258" r="15" fill="#c98500" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="770" cy="258" r="15" fill="none" stroke="#c98500" stroke-width="1.3"/>
+<text x="770" y="263" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">❄️</text>
+<text x="796" y="254" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">VRF air-conditioning</text>
+<text x="796" y="271" font-size="11" fill="#898781" font-weight="400" text-anchor="start">dedicated per villa, not shared</text>
+<rect x="764" y="288" width="176" height="100" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="780" y="312" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">❄️</text>
+<text x="806" y="312" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">TIS controller</text>
+<text x="780" y="330" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">HTTP, optional</text>
+<text x="780" y="345" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">basic-auth.</text>
+<rect x="960" y="288" width="176" height="100" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="976" y="312" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🌀</text>
+<text x="1002" y="312" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Indoor units</text>
+<text x="976" y="330" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Existing hardware, kept</text>
+<text x="976" y="345" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">as-is.</text>
+<rect x="40" y="434" width="1120" height="168" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-dasharray="7,6"/>
+<circle cx="70" cy="464" r="15" fill="#898781" stroke="none" stroke-width="1" opacity="0.16"/>
+<circle cx="70" cy="464" r="15" fill="none" stroke="#898781" stroke-width="1.3"/>
+<text x="70" y="469" font-size="15" fill="#ffffff" font-weight="400" text-anchor="middle">☁️</text>
+<text x="96" y="460" font-size="15.5" fill="#ffffff" font-weight="700" text-anchor="start">Remote access over the internet</text>
+<text x="96" y="477" font-size="11" fill="#898781" font-weight="400" text-anchor="start">only if you choose to enable it</text>
+<rect x="1066.8" y="449" width="73.2" height="24" rx="12" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+<text x="1103.4" y="465" font-size="10" fill="#c3c2b7" font-weight="600" text-anchor="middle" letter-spacing="0.5">OPTIONAL</text>
+<rect x="64" y="494" width="344" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="80" y="512" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>add-on</text>
+<text x="80" y="534" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🔐</text>
+<text x="106" y="534" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">DuckDNS + Let&#x27;s Encrypt</text>
+<text x="80" y="552" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Free dynamic DNS and TLS certificate.</text>
+<rect x="428" y="494" width="344" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="444" y="512" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>port forward</text>
+<text x="444" y="534" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">📶</text>
+<text x="470" y="534" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Home router</text>
+<text x="444" y="552" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">External 443 -&gt; internal 8123 only.</text>
+<rect x="792" y="494" width="344" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
+<text x="808" y="518" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🌐</text>
+<text x="834" y="518" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Internet</text>
+<text x="808" y="536" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Your phone, away from home Wi-Fi.</text>
+<path d="M1035.0,182 C1035.0,205.0 449.0,205.0 449.0,228" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="694.4" y="194.0" width="95.19999999999999" height="18" rx="9" fill="#0d0d0d" stroke="rgba(255,255,255,0.10)"/>
+<text x="742.0" y="208.0" font-size="10.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">Zigbee radio</text>
+<path d="M817.0,182 C817.0,205.0 852.0,205.0 852.0,228" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="813.3" y="194.0" width="42.4" height="18" rx="9" fill="#0d0d0d" stroke="rgba(255,255,255,0.10)"/>
+<text x="834.5" y="208.0" font-size="10.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">HTTP</text></svg>

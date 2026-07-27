@@ -100,8 +100,8 @@ dashboard), and where the official documentation lives.
   integration, secure remote access, and the roadmap.
 |===
 
-PDF copies of both guides, formatted for sharing on WhatsApp, are in the
-link:pdf/[`pdf/`] folder.
+PDF copies of both guides, formatted for sharing on WhatsApp, are in
+link:phases/phase-4/pdf/[`phases/phase-4/pdf/`].
 
 == Your part of the community
 

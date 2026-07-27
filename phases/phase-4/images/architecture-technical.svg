@@ -20,16 +20,16 @@
 <text x="542" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">Zigbee2MQTT</text>
 <text x="516" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Bridges Zigbee to MQTT.</text>
 <rect x="718" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
-<text x="734" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>integration</text>
-<text x="734" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🧩</text>
-<text x="760" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">hass-tis-vrf-ac</text>
-<text x="734" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">climate: ac_vrf platform.</text>
+<text x="734" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>coordinator</text>
+<text x="734" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">📡</text>
+<text x="760" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">SLZB-06M</text>
+<text x="734" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Zigbee 3.0,</text>
+<text x="734" y="163" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">network-attached.</text>
 <rect x="936" y="90" width="198" height="92" rx="11" fill="#1a1a19" stroke="rgba(255,255,255,0.10)" stroke-width="1.2"/>
-<text x="952" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>coordinator</text>
-<text x="952" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">📡</text>
-<text x="978" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">SLZB-06M</text>
-<text x="952" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Zigbee 3.0,</text>
-<text x="952" y="163" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">network-attached.</text>
+<text x="952" y="108" font-size="10" fill="#898781" font-weight="400" text-anchor="start" font-family='ui-monospace,SFMono-Regular,Menlo,monospace'>integration</text>
+<text x="952" y="130" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🧩</text>
+<text x="978" y="130" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">hass-tis-vrf-ac</text>
+<text x="952" y="148" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">climate: ac_vrf platform.</text>
 <rect x="40" y="228" width="660" height="176" rx="16" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
 <circle cx="70" cy="258" r="15" fill="#199e70" stroke="none" stroke-width="1" opacity="0.16"/>
 <circle cx="70" cy="258" r="15" fill="none" stroke="#199e70" stroke-width="1.3"/>
@@ -89,9 +89,9 @@
 <text x="808" y="534" font-size="17" fill="#ffffff" font-weight="400" text-anchor="start">🌐</text>
 <text x="834" y="534" font-size="13" fill="#ffffff" font-weight="700" text-anchor="start">DuckDNS + Let&#x27;s Encrypt</text>
 <text x="808" y="552" font-size="11" fill="#c3c2b7" font-weight="400" text-anchor="start">Direct HTTPS via router port-forward 443 -&gt; 8123.</text>
-<path d="M1035.0,182 C1035.0,205.0 594.0,205.0 594.0,228" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
-<rect x="766.9" y="181.0" width="95.19999999999999" height="18" rx="9" fill="#0d0d0d" stroke="rgba(255,255,255,0.10)"/>
-<text x="814.5" y="195.0" font-size="10.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">Zigbee radio</text>
-<path d="M817.0,182 C817.0,205.0 852.0,205.0 852.0,228" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
-<rect x="813.3" y="207.0" width="42.4" height="18" rx="9" fill="#0d0d0d" stroke="rgba(255,255,255,0.10)"/>
-<text x="834.5" y="221.0" font-size="10.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">HTTP</text></svg>
+<path d="M817.0,182 C817.0,205.0 594.0,205.0 594.0,228" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="657.9" y="181.0" width="95.19999999999999" height="18" rx="9" fill="#0d0d0d" stroke="rgba(255,255,255,0.10)"/>
+<text x="705.5" y="195.0" font-size="10.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">Zigbee radio</text>
+<path d="M1035.0,182 C1035.0,205.0 852.0,205.0 852.0,228" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" marker-end="url(#arrow)"/>
+<rect x="922.3" y="207.0" width="42.4" height="18" rx="9" fill="#0d0d0d" stroke="rgba(255,255,255,0.10)"/>
+<text x="943.5" y="221.0" font-size="10.5" fill="#c3c2b7" font-weight="400" text-anchor="middle">HTTP</text></svg>
